@@ -5,7 +5,7 @@ public class Accessory {
 	private String accessory_name; //附件名
 	private String task_id; //所属任务id
 	private String accessory_path; //附件存放路径
-	private String accessory_kind; //附件类型
+	private int accessory_kind; //表示附件是所属于教学者发布的任务(1)还是学习者的提交结果(2)
 	
 	private Boolean delete_flg;//是否删除
 	private String create_user;//创建者
@@ -30,10 +30,10 @@ public class Accessory {
 	public void setAccessory_path(String accessory_path) {
 		this.accessory_path = accessory_path;
 	}
-	public String getAccessory_kind() {
+	public int getAccessory_kind() {
 		return accessory_kind;
 	}
-	public void setAccessory_kind(String accessory_kind) {
+	public void setAccessory_kind(int accessory_kind) {
 		this.accessory_kind = accessory_kind;
 	}
 	public Boolean getDelete_flg() {
@@ -65,6 +65,16 @@ public class Accessory {
 	}
 	public void setUpdate_time(String update_time) {
 		this.update_time = update_time;
+	}
+	public Accessory(String accessory_name, String task_id, String accessory_path, int accessory_kind,
+			 String create_user, String update_user) {
+		super();
+		this.accessory_name = accessory_name;
+		this.task_id = task_id;
+		this.accessory_path = accessory_path;
+		this.accessory_kind = accessory_kind;
+		this.create_user = create_user;
+		this.update_user = update_user;
 	}
 	
 	
