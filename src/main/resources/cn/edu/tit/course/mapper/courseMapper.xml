@@ -30,9 +30,9 @@
 	<!-- 添加课程 -->
 	<insert id="addCourse" parameterType="cn.edu.tit.course.bean.Course">
 		insert into ceptp_course(course_id,course_name,course_flag,course_notes,course_img,college,
-		course_lable,application_pro,invitation_code,delete_flg,creater,create_time,updater,update_time)
+		course_label,application_pro,invitation_code,delete_flg,creater,create_time,updater,update_time)
 		 values (#{course_id},#{course_name},1,#{course_notes},#{course_img},#{college},
-		#{course_lable},#{application_pro},#{invitation_code},0,#{create_user},now(),#{create_user},now());
+		#{course_label},#{application_pro},#{invitation_code},0,#{create_user},now(),#{create_user},now());
 	</insert>
 	
 	<!-- 获取邀请码 -->

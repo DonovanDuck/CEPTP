@@ -6,7 +6,7 @@ public class Course {
 	
 	private String course_id; //课程id (发布者id_时间戳)
 	private String course_name; //课程名
-	private String course_lable; //课程标签
+	private String course_label; //课程标签
 	private byte[] course_img; //课程图片
 	private String course_notes; //课程备注（简介）
 	private String college; //所属学校
@@ -53,11 +53,11 @@ public class Course {
 		this.course_name = course_name;
 	}
 	
-	public String getCourse_lable() {
-		return course_lable;
+	public String getCourse_label() {
+		return course_label;
 	}
 	public void setCourse_lable(String course_lable) {
-		this.course_lable = course_lable;
+		this.course_label = course_lable;
 	}
 	public byte[] getCourse_img() {
 		return course_img;
@@ -112,13 +112,13 @@ public class Course {
 	}
 	
 	
-	public Course(String course_id, String course_name, String course_lable, byte[] course_img, String course_notes,
+	public Course(String course_id, String course_name, String course_label, byte[] course_img, String course_notes,
 			String college, String application_pro, int course_flag, String invitation_code, 
 			String create_user) {
 		super();
 		this.course_id = course_id;
 		this.course_name = course_name;
-		this.course_lable = course_lable;
+		this.course_label = course_label;
 		this.course_img = course_img;
 		this.course_notes = course_notes;
 		this.college = college;
