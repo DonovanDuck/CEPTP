@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Task {
 	//任务题目
-	private String task_id; //任务id
+	private String task_id; //任务id (课程id_时间戳)
 	private String task_name; //任务名
 	private String course_id; //所属课程id
 	private String task_details; //发布任务描述

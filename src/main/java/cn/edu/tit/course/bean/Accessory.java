@@ -1,10 +1,13 @@
 package cn.edu.tit.course.bean;
 
+import java.io.File;
+
 public class Accessory {
 	
 	private String accessory_name; //附件名
 	private String task_id; //所属任务id
 	private String accessory_path; //附件存放路径
+	private File accessory; //附件
 	private int accessory_kind; //表示附件是所属于教学者发布的任务(1)还是学习者的提交结果(2)
 	
 	private Boolean delete_flg;//是否删除
@@ -12,6 +15,14 @@ public class Accessory {
 	private String create_time;//创建时间
 	private String update_user;//更新者
 	private String update_time;//更新时间
+	
+	
+	public File getAccessory() {
+		return accessory;
+	}
+	public void setAccessory(File accessory) {
+		this.accessory = accessory;
+	}
 	public String getAccessory_name() {
 		return accessory_name;
 	}
@@ -76,6 +87,6 @@ public class Accessory {
 		this.create_user = create_user;
 		this.update_user = update_user;
 	}
-	
+	public Accessory(){}
 	
 }

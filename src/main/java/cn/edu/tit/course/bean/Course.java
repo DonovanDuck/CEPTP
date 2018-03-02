@@ -2,6 +2,8 @@ package cn.edu.tit.course.bean;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Repository;
+@Repository
 public class Course {
 	
 	private String course_id; //课程id (发布者id_时间戳)

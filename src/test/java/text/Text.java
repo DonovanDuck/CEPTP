@@ -1,5 +1,7 @@
 package text;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.edu.tit.course.Idao.ICourseDao;
 import cn.edu.tit.course.Iservice.ICourseService;
+import cn.edu.tit.course.Iservice.serviceImp.CourseSerivceImp;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
@@ -60,10 +63,19 @@ public class Text {
     }
     @Test
     public void findCourse(){
-    	List<Course> cl = new ArrayList<>();
-    	cl = courseDao.findCouByAppro("software");
-    	for(Course c : cl){
-    		System.out.println(c.getCourse_id());
-    	}
+//    	List<Course> cl = new ArrayList<>();
+//    	cl = courseDao.findCouByAppro("software");
+//    	for(Course c : cl){
+//    		System.out.println(c.getCourse_id());
+//    	}
+    	CourseSerivceImp c = new CourseSerivceImp();
+    	File f = new File("d:\\f.doc");
+    	try {
+			f.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	c.saveAccessory(f);
     }
 }

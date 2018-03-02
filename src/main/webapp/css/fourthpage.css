@@ -52,7 +52,7 @@ header
     margin-top: 80px;
     margin-left: 25%;
     font-weight: lighter;
-    font-family: 宋体;
+    font-family: 微软雅黑;
     width: 388px;
     overflow: hidden;
     white-space: nowrap;
@@ -61,10 +61,25 @@ header
     margin-top: 5px;
     height: 30px;
     width: 30px;
-    background: rgb(0,100,200);
+    line-height: 30px;
+    font-size: 32px;
+    margin-right: 8px;
+}
+.flphoto{
+	margin-top: 2px;
+    height: 27px;
+    width: 50px;
+    line-height: 30px;
+    font-size: 32px;
+    margin-right: 8px;
+    float: left;
+}
+.flphoto img{
+	height: 40px;
+    width: 49px;
 }
 .title h5{
-    margin-top: 2px;
+    margin-top: 15px;
     font-weight: lighter;
     font-size: 25px;
     color: grey;
@@ -94,7 +109,7 @@ header
     width: 50px;
     height: 100%;
     padding-right: 20px;
-    padding-top: 12px;
+    margin-top: 21px;
 }
 .exit:hover{
     background: rgba(0,0,0,.1);
@@ -112,6 +127,14 @@ information
     .self-information
     .on
  */
+ .detail{
+	margin: 0 auto;
+	margin-top: 80px;
+	width: 31%;
+	height: 600px;
+	text-align: left;
+	line-height: 40px;
+}
 .information{
     height: 45px;
 }
@@ -125,9 +148,12 @@ information
 .self-pic{
     height: 175px;
     width: 150px;
-    margin-top: -150px;
+    margin-top: -134px;
     margin-right: 45px;
-    background: #e8e;
+}
+.self-pic img{
+	height: 100%;
+    width: 100%;
 }
 .self-information{
     height: 100%;
@@ -235,4 +261,30 @@ input[id=file]{
 }
 .creat{
     cursor: pointer;
+}
+.clphoto{
+	width: 67px;
+	height: 67px;
+	
+}
+.filephoto{
+	width: 67px;
+	height: 67px;
+	border-style: dashed;
+	border-width:2px;
+	border-color: #cccccc;	
+	text-align: center;
+	line-height: 65px;
+	font-weight: bolder;
+	font-size: 30px;
+	color: #cccccc;
+	cursor: pointer;
+	margin-bottom: 30px;
+}
+.sub{
+	width: 333px;
+	height: 36px;
+	margin-left:50px;
+	margin-top: 40px;
+	margin-bottom: 50px;
 }

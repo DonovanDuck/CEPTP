@@ -1,9 +1,22 @@
 package cn.edu.tit.course.Iservice.serviceImp;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +66,7 @@ public class CourseSerivceImp implements ICourseService{
 			accessoryList = task.getPubAccs();
 			if(accessoryList.size()!=0){
 				for(Accessory acc : accessoryList){
-					//附件存库
+					//附件信息存库
 					courseDao.addAcc(acc);
 				}
 			}
@@ -111,4 +124,35 @@ public class CourseSerivceImp implements ICourseService{
 		return null;
 	}
 
+	/**
+	 * 附件存盘
+	 * @param accessory
+	 * 附件
+	 */
+	public void saveAccessory(File accessory){
+		InputStream in = ClassLoader.getSystemResourceAsStream("page.properties");
+		Properties properties = new Properties();
+		BufferedOutputStream bw = null;
+		try {
+			properties.load(in);
+			//获取存储路径
+			String path = properties.getProperty("path")+accessory.getName();
+			//创建文件输入流
+			InputStream input = new FileInputStream(accessory);
+			BufferedInputStream bin = new BufferedInputStream(input);
+			byte[] b = new byte[10240];
+			//创建文件输出流
+			
+			OutputStream out = new FileOutputStream(path);
+			bw = new BufferedOutputStream(out);
+			bin.read(b);
+			bw.write(b);
+			
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

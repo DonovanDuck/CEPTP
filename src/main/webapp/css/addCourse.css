@@ -61,7 +61,6 @@ a{text-decoration: none;}
 .container{
 	width: 80%;
 	height: 256px;
-	background: yellow;
 	margin: 0 auto;
 }
 .blank{
@@ -87,9 +86,15 @@ a{text-decoration: none;}
 	height: 30px;
 	clear: both;
 }
+.head1{
+	height: 43px;
+	width: 1089px;
+	margin-bottom: 20px;
+	margin: 0 auto;
+}
 .detail{
 	margin: 0 auto;
-	margin-top: 40px;
+	margin-top: 140px;
 	width: 31%;
 	height: 600px;
 	text-align: left;
@@ -127,6 +132,7 @@ a{text-decoration: none;}
 .press button{
 	border-radius: 4px;
 }
+
 
 
 

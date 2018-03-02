@@ -7,52 +7,87 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>添加课程</title>
-		<link rel="stylesheet"href="${pageContext.request.contextPath}/css/addCourse.css" />
+		
+		<link href="${pageContext.request.contextPath}/css/fourthpage.css" type="text/css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" />
+		<script  type="text/javascript" >
+			function AddMoreRow(){
+					var oRow = event.srcElement.parentNode.parentNode;
+					var oTable = oRow.parentNode.parentNode;
+					var rowCount = oTable.rows.length;
+					oNewRow = oTable.insertRow(rowCount);
+					oNewRow.insertCell(0).innerHTML = "<input type='text' class='form-control' name='course_lable'style='width:223px;margin-bottom:3px;' />";
+				}
+	
+		</script>
 	</head>
+	  
+	
 	<body>
-		<header class="header">
-			<h1 class="fl logo">
-				<a href="#"><img src="img/logo.jpg"/> </a>
-			</h1>
-			<div class="content">
-				<ul>
-					<li class="fl list"><a href="">任务中心</a></li>
-					<li class="fl list"><a href="">|</a></li>
-					<li class="fl list"><a href="">课程包</a></li>
-					<li class="fl list"><a href="">|</a></li>
-					<li class="fl list"><a href="">库管理</a></li>
-					<li class="fl list"><a href="">|</a></li>
-					<li class="fl list"><a href="">我的题库</a></li>
-					<li class="fl list"><a href="">|</a></li>
-				</ul>
-				<ul>
-					<li class="fl list"><a href=""><img src="img/logo.jpg"style="width: 20px;height: 20px;" /> </a></li>
-					<li class="fl list"><a href="">用户名</a></li>
-					<li class="fl list"><a href="">退出</a></li>
-				</ul>
-			</div>
-		</header>
+     <header class="head1" style="height: 43px;width: 1089px;margin-bottom: 20px;margin: 0 auto;" >
+        <div class="title container">
+            <div class="flphoto">
+            	
+                <img class="" src="${pageContext.request.contextPath}/img/logo.jpg">
+            </div>
+            <h5 class="fl">我的班课</h5>
+            <a class="fr exit" href="">
+                <div class="fr light">
+                    	退出
+                </div>
+            </a>
+            <div class="title-menu fr">
+                <ul class="fr">
+                    <li class="fr">
+                        <img src="" alt="" class="fl glyphicon glyphicon-user">
+                        <h6>黄浩然</h6>
+                    </li>
+                    <li class="fr line">
+                        <img src="" alt="" class="fl glyphicon glyphicon-pencil">
+                        <h6>我的题库</h6>
+                    </li>
+                    <li class="fr line">
+                        <img src="" alt="" class="fl glyphicon glyphicon-cog">
+                        <h6>库管理</h6>
+                    </li>
+                    <li class="fr line">
+                        <img src="" alt="" class="fl glyphicon glyphicon-gift">
+                        <h6>课程包</h6>
+                    </li>
+                    <li class="fr line">
+                        <img src="" alt="" class="fl glyphicon glyphicon-book">
+                        <h6>任务中心</h6>
+                    </li>
+                   
+                </ul>
+            </div>
+        </div>
+    </header>
 		<form action="<c:url value='/course/addCourse'/>">
 		<div class="detail">
-			<span>学校*</span><br />
-			<input type="text"id="class"name="school" /><br />
+			<span style="font-family: '微软雅黑''">学校*</span><br />
+			<input type="text" class="form-control" name="school" /><br />
 			<span>课程名*</span><br />
-			<select name="course_name" class="kecheng">
-				<option name="course_name">请选择或填写课程</option>
-				<option name="course_name">汉语言文学</option>
-				<option name="course_name">大学英语</option>
-				<option>计算机导论</option>
-				<option>数据库原理</option>
-				<option>高等数学</option>
-				<option>大学体育</option>
-			</select><br />
-			<span>类型*</span><br />
-			<input type="radio"name="course_lable"id="school" />
-			学校课表班课（学校课表班课就是学校安排课表里的正常班课）<br />
-			设置班课封面<br />
-			<input type="file" name="course_img"><img src="${pageContext.request.contextPath}/img/3.png" /></input><br />
-			<button type="submit"class="submit">确定</button>
-			<button type="reset">取消</button>
+			<input type="text" class="form-control" name="course_name" /><br />
+			<table style="margin-bottom:20px;">
+				<tr>
+					<td><input class="btn btn-info" type="button" value="添加标签" onclick="AddMoreRow()"><br /></td>
+				</tr>
+			</table>
+			<span>课程简介</span><br />
+			<textarea class="form-control" rows="3" name="course_notes"></textarea>
+			<span>适用专业</span><br />
+			<input type="text" class="form-control" name="application_pro" /><br />
+			<span>添加课程图片</span><br />
+			<div class="clphoto">
+				<label for="file" class="filephoto">+</label>
+				<input type="file" id="file" style="display:none;" name="course_img">
+			</div>
+			<div class="sub">
+				<button type="submit" class="btn btn-default" style="margin-right: 200px">提交</button>
+				<button type="button" class="btn btn-default">取消</button>
+				
+			</div>
 		</div>
 		</form>
 	</body>
