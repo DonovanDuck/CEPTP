@@ -21,7 +21,7 @@ import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.user.Iservice.IUserService;
-import cn.edu.tit.user.bean.Teacher;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类  
 @ContextConfiguration(locations = {"classpath:spring-mybatis.xml"}) 
