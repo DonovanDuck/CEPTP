@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import cn.edu.tit.user.bean.User;
 
 public interface IUserDao {
+	
 	/**
 	 * 通过user_id查询用户
 	 * @param user_id
@@ -22,9 +23,7 @@ public interface IUserDao {
 	 * @param update_user
 	 * @param update_time
 	 */
-	public void importInfo(@Param("user") User user, @Param("create_user") String create_user,
-			@Param("create_time") Date create_time, @Param("update_user") String update_user,
-			@Param("update_time") Date update_time);
+	public void importInfo(User user);
 
 	/**
 	 * 获取所有User信息

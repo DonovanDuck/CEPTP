@@ -9,14 +9,11 @@ public class OutUser {
 	//private String password;// 密码
 	private String class_name;// 班级
 	private String professional_title; //职称
-	private String degree; //学位
 	private String detail; //简介
 	private byte[] face; //头像
 	private String pro;// 专业
 	private String qq;// QQ号
 	private String mobile;// 移动电话
-	private String college;// 所在学院
-	private String sec_college;// 二级学院（系）
 	private String delete_flg;//是否删除
 	private String create_user;//创建者
 	private String create_time;//创建时间
@@ -26,22 +23,18 @@ public class OutUser {
 		super();
 	}
 	
-	public OutUser(String user_id, String user_name, String class_name, String professional_title, String degree,
-			String detail, byte[] face, String pro, String qq, String mobile, String college, String sec_college,
+	public OutUser(String user_id, String user_name, String class_name, String professional_title, 
+			String detail, String pro, String qq, String mobile, 
 			String create_user, String create_time, String update_user, String update_time) {
 		super();
 		this.user_id = user_id;
 		this.user_name = user_name;
 		this.class_name = class_name;
 		this.professional_title = professional_title;
-		this.degree = degree;
 		this.detail = detail;
-		this.face = face;
 		this.pro = pro;
 		this.qq = qq;
 		this.mobile = mobile;
-		this.college = college;
-		this.sec_college = sec_college;
 		this.create_user = create_user;
 		this.create_time = create_time;
 		this.update_user = update_user;
@@ -88,13 +81,6 @@ public class OutUser {
 		this.professional_title = professional_title;
 	}
 
-	public String getDegree() {
-		return degree;
-	}
-
-	public void setDegree(String degree) {
-		this.degree = degree;
-	}
 
 	public String getDetail() {
 		return detail;
@@ -136,21 +122,6 @@ public class OutUser {
 		this.mobile = mobile;
 	}
 
-	public String getCollege() {
-		return college;
-	}
-
-	public void setCollege(String college) {
-		this.college = college;
-	}
-
-	public String getSec_college() {
-		return sec_college;
-	}
-
-	public void setSec_college(String sec_college) {
-		this.sec_college = sec_college;
-	}
 
 	public String getDelete_flg() {
 		return delete_flg;
@@ -192,13 +163,4 @@ public class OutUser {
 		this.update_time = update_time;
 	}
 
-	@Override
-	public String toString() {
-		return "OutUser [user_id=" + user_id + ", user_name=" + user_name + ", sex=" + sex + ", class_name="
-				+ class_name + ", professional_title=" + professional_title + ", degree=" + degree + ", detail="
-				+ detail + ", face=" + Arrays.toString(face) + ", pro=" + pro + ", qq=" + qq + ", mobile=" + mobile
-				+ ", college=" + college + ", sec_college=" + sec_college + ", delete_flg=" + delete_flg
-				+ ", create_user=" + create_user + ", create_time=" + create_time + ", update_user=" + update_user
-				+ ", update_time=" + update_time + "]";
-	}
 }

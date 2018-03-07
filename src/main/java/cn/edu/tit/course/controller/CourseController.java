@@ -13,10 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.edu.tit.course.Iservice.ICourseService;
 import cn.edu.tit.course.bean.Accessory;
@@ -108,11 +109,8 @@ public class CourseController {
 //			properties.load(in);
 //			String path = properties.getProperty("path");
 			String path = "D:\\accessory\\";
-            // Create a factory for disk-based file items  
             DiskFileItemFactory factory = new DiskFileItemFactory();  
-            // Create a new file upload handler  
             ServletFileUpload upload = new ServletFileUpload(factory);  
-            // Set overall request size constraint  
             upload.setSizeMax(4194304); // 设置最大文件尺寸，这里是4MB  
             List<Accessory> accList = new ArrayList<>();
             List<FileItem> items = upload.parseRequest(request);// 得到所有的文件  
@@ -149,6 +147,11 @@ public class CourseController {
         }  
 		
 		
+	}
+	@RequestMapping(value="/uploadImage")
+	public Object uploadImage(@Param("upfile") MultipartFile img){
+			Map<String, Object> param = new HashMap<>();
+			MediaFile
 	}
 	
 	

@@ -24,6 +24,7 @@ import cn.edu.tit.user.bean.OutUser;
 import cn.edu.tit.user.bean.User;
 import cn.edu.tit.user.utils.ExcelUtils;
 import cn.edu.tit.user.utils.RequestUtils;
+import cn.edu.tit.user.utils.getByte;
 import cn.edu.tit.util.RoleUtil;
 
 @Service
@@ -131,41 +132,42 @@ public class UserServiceImp implements IUserService {
 			// 获取cell(5)值，赋值给professional_title
 			String professional_title = row.getCell(5).getStringCellValue();
 			// 获取cell(6)值，赋值给degree，空报错，跳过此条数据，进行下一条数据
-			String degree = row.getCell(6).getStringCellValue();
-			// 获取cell(7)值，赋值给dept_id，空报错，跳过此条数据，进行下一条数据
-			String detail = row.getCell(7).getStringCellValue();
-			// 获取cell(8)值，赋值给pro_id，空报错，跳过此条数据，进行下一条数据
-			byte[] face = { 1, 2 };
-			if ("".equals(row.getCell(8).toString())) {
+			//String degree = row.getCell(6).getStringCellValue();
+			// 获取cell(7)值，赋值给detail，空报错，跳过此条数据，进行下一条数据
+			String detail = row.getCell(6).getStringCellValue();
+			
+			String path = "D:/3.png";
+			File file = new File(path);
+			byte[] face = getByte.getByte(file);		
+			/*if ("".equals(row.getCell(8).toString())) {
 				face = null;
 			}
 			if (row.getCell(8) != null && !("".equals(row.getCell(8).toString()))) {
 				row.getCell(8).setCellType(Cell.CELL_TYPE_BLANK);
-				//face = row.getCell(8).getArrayFormulaRange();
-				
+				// face = row.getCell(8).getArrayFormulaRange();
+
+			}*/
+			// 获取cell(9)值，赋值给pro
+			String pro = null;
+			if (row.getCell(8) != null && !("".equals(row.getCell(8).toString()))) {
+				row.getCell(8).setCellType(Cell.CELL_TYPE_STRING);
+				pro = row.getCell(8).getStringCellValue();
 			}
-			// 获取cell(9)值，赋值给email
-			String pro = row.getCell(9).getStringCellValue();
+			
 			// 获取cell(10)值，赋值给qq
-			String qq = row.getCell(10).getStringCellValue();
+			String qq = row.getCell(9).getStringCellValue();
 			// 获取cell(11)值，赋值给mobile
 			String mobile = null;
-			if (row.getCell(11) != null && !("".equals(row.getCell(11).toString()))) {
-				row.getCell(11).setCellType(Cell.CELL_TYPE_STRING);
-				mobile = row.getCell(11).getStringCellValue();
+			if (row.getCell(10) != null && !("".equals(row.getCell(10).toString()))) {
+				row.getCell(10).setCellType(Cell.CELL_TYPE_STRING);
+				mobile = row.getCell(10).getStringCellValue();
 			}
 			// 获取cell(12)的值，赋给college
-			String college = null;
-			if (row.getCell(12) != null && !("".equals(row.getCell(12).toString()))) {
-				row.getCell(12).setCellType(Cell.CELL_TYPE_STRING);
-				college = row.getCell(12).getStringCellValue();
-			}
-			// 获取cell(13)的值，赋给college
-			String sec_college = row.getCell(13).getStringCellValue();
+			
 
 			// 创建user对象，对其赋值
-			User user = new User(user_id, user_name, sex, password, class_name, professional_title, degree, detail,
-					face, pro, qq, mobile, college, sec_college);
+			User user = new User(user_id, user_name, sex, password, class_name, professional_title, detail,
+					face, pro, qq, mobile);
 
 			// 将teacher对象存到teacherList中
 			userList.add(user);
@@ -180,8 +182,12 @@ public class UserServiceImp implements IUserService {
 		List<Integer> list = new ArrayList<Integer>();
 		// 对teacherList进行循环，将其传入Dao层
 		for (int i = 0; i < userList.size(); i++) {
+			userList.get(i).setCreate_user(create_user);
+			userList.get(i).setCreate_time(new Date());
+			userList.get(i).setUpdate_user(create_user);
+			userList.get(i).setUpdate_time(new Date());
 			try {
-				userDao.importInfo(userList.get(i), create_user, new Date(), create_user, new Date());
+				userDao.importInfo(userList.get(i));
 				// 正确个数++
 				flagT++;
 			}
@@ -202,46 +208,21 @@ public class UserServiceImp implements IUserService {
 
 	@Override
 	public File exportUser() {
-		// TODO Auto-generated method stub
-		List<User> userList = userDao.findAllUser();
-		List<OutUser> userlist = new ArrayList<OutUser>();
+		List<User> list = userDao.findAllUser();
 		try {
-			for (int i = 0; i < userList.size(); i++) {
-				// 创建de对象，通过将从数据库中取得的值赋值给de，将de添加到teacherlist中，使其可以按固定格式输出
-				OutUser de;
-				User et = userList.get(i);
-				de = new OutUser(et.getUser_id(), et.getUser_name(), et.getClass_name(), et.getProfessional_title(),
-						et.getDegree(), et.getDetail(), et.getFace(), et.getPro(), et.getQq(), et.getMobile(),
-						et.getCollege(), et.getSec_college(), et.getCreate_user(), et.getCreate_time(),
-						et.getUpdate_user(), et.getUpdate_time());
-				boolean sex = userList.get(i).getSex();
-				if (sex) {
-
-					de.setSex("男");
-				} else {
-					de.setSex("女");
-				}
-
-				boolean delete_flg = userList.get(i).getDelete_flg();
-				if (delete_flg) {
-					de.setDelete_flg("是");
-				} else {
-					de.setDelete_flg("否");
-				}
-				userlist.add(de);
-			}
-			// 对excel的表头进行赋值
-			File file = ExcelUtils.exportExcel(userlist,
-					RequestUtils.getRequest().getSession().getServletContext().getRealPath(File.separator)
-							+ UUID.randomUUID().toString() + ".xls",
-					new String[] { "学号、工号", "姓名", "性别", "班级", "职称", "学位", "简介", "头像", "专业", "QQ号", "移动电话", "所在学院",
-							"二级学院（系）", "是否删除", "创建者", "创建时间", "更新者", "更新时间" },
-					"updateTime");
+			// 定义排除的数据值名
+			String[] excludeFiledNames = { "sex" };
+			// 定义Excel表中的头
+			String[] columnNames = new String[] { "教师工号", "教师名", "学位id", "职称id", "所在学院", "所在系部", "所在专业", "邮箱", "是否在岗",
+					"固定电话", "移动电话", "是否第一次登陆", "是否删除", "创建者", "创建时间", "更新者", "更新时间" };
+			// 设置Excel存储的路径
+			String filePath = "D:\\exportfile\\" + new Date().getTime() + ".xls";
+			File file = ExcelUtils.exportExcel(list, filePath, columnNames, excludeFiledNames);
 			return file;
 		} catch (IOException e) {
-			logger.error(e.getMessage(), e.toString());
+			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			logger.error(e.getMessage(), e.toString());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -263,9 +244,11 @@ public class UserServiceImp implements IUserService {
 		// TODO Auto-generated method stub
 		User user1 = userDao.findUserById(user.getUser_id());
 		if (user1 == null) {
-			String create_user = user.getUser_id();
-			String update_user = user.getUser_id();
-			userDao.importInfo(user, create_user, new Date(), update_user, new Date());
+			user.setCreate_user(user.getUser_id());
+			user.setUpdate_user(user.getUser_id());
+			user.setCreate_time(new Date());
+			user.setUpdate_time(new Date());
+			userDao.importInfo(user);
 			User user2 = userDao.findUserById(user.getUser_id());
 			if (user2 != null) {
 				return true;
@@ -281,5 +264,10 @@ public class UserServiceImp implements IUserService {
 	public User findUserById(String user_id) {
 		// TODO Auto-generated method stub
 		return userDao.findUserById(user_id);
+	}
+
+	@Override
+	public void signUp(User user) {
+		userDao.importInfo(user);
 	}
 }

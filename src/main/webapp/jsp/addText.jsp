@@ -5,10 +5,13 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html">
-    <title></title>
+    <title>添加作业</title>
     <link href="${pageContext.request.contextPath}/css/fourthpage.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/fourthpage.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/ueditor/ueditor.all.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/ueditor/zh-cn.js"></script>
     <script  type="text/javascript" >
 function AddMoreRow(){
 		var oRow = event.srcElement.parentNode.parentNode;
@@ -41,6 +44,9 @@ function AddMoreRow(){
 			event.returnValue = false;
 		}
 	}
+</script>
+<script type="text/javascript" charset="utf-8">
+	UE.getEditor('task_details');
 </script>
 </head>
 <body>
@@ -112,9 +118,12 @@ function AddMoreRow(){
         <form  action="<c:url value='/course/publishTesk'/>" enctype="multipart/form-data" 
        method="post">
         	<input type="hidden" name="course_id" value="${course_id }">
-            <p>作业详情：</p>
-            <textarea cols="188" rows="10" placeholder="请输入" name="task_details"></textarea>
-            <p class="light">(选填)可输入文字或添加图片及其他类型附件</p>
+        	<div>
+        		<p>作业详情：</p>
+            	<textarea id = "task_details" class="" cols="188" rows="10" placeholder="请输入" name="task_details"></textarea>
+            	<p class="light">(选填)可输入文字或添加图片及其他类型附件</p>
+        	</div>
+            
             <table>
             	<tr>
 	            	<td>
