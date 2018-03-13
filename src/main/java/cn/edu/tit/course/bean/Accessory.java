@@ -4,6 +4,7 @@ import java.io.File;
 
 public class Accessory {
 	
+	private String accessory_id; //附件id
 	private String accessory_name; //附件名
 	private String task_id; //所属任务id
 	private String accessory_path; //附件存放路径
@@ -17,6 +18,12 @@ public class Accessory {
 	private String update_time;//更新时间
 	
 	
+	public String getAccessory_id() {
+		return accessory_id;
+	}
+	public void setAccessory_id(String accessory_id) {
+		this.accessory_id = accessory_id;
+	}
 	public File getAccessory() {
 		return accessory;
 	}

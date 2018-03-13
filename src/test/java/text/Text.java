@@ -68,14 +68,10 @@ public class Text {
 //    	for(Course c : cl){
 //    		System.out.println(c.getCourse_id());
 //    	}
-    	CourseSerivceImp c = new CourseSerivceImp();
-    	File f = new File("d:\\f.doc");
-    	try {
-			f.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	c.saveAccessory(f);
+    	List<Accessory> aList = new ArrayList<>();
+    	aList = courseSerivce.getAccs("1520561_15175610475821520760312980");
+    	for(Accessory a:aList ){
+    		System.out.println(a.getAccessory_path());
+    	}
     }
 }

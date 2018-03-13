@@ -116,4 +116,23 @@ public interface ICourseDao {
 	 */
 	public List<Course> findCouByCollege(String college);
 	
+	/**
+	 * 根据id查任务
+	 * @param task_id
+	 * @return
+	 */
+	public Task findTextByid(String task_id);
+	
+	/**
+	 * 根据附件id查询附件路径
+	 * @return
+	 */
+	public String getAccPath(String accessory_id);
+	
+	/**
+	 * 根据task_id查找附件
+	 * @param task_id
+	 * @return
+	 */
+	public List<Accessory> getAccList(String task_id);
 }

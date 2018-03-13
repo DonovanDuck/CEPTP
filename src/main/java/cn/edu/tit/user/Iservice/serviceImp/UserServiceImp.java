@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.user.Idao.IUserDao;
 import cn.edu.tit.user.Iservice.IUserService;
 import cn.edu.tit.user.bean.OutUser;
@@ -270,4 +271,6 @@ public class UserServiceImp implements IUserService {
 	public void signUp(User user) {
 		userDao.importInfo(user);
 	}
+
+	
 }

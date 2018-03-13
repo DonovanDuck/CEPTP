@@ -53,7 +53,19 @@
 	
 	<!-- 添加附件 -->
 	<insert id="addAcc" parameterType="cn.edu.tit.course.bean.Accessory">
-		insert into ceptp_accessory values (#{accessory_name},#{task_id},#{accessory_path},#{accessory_kind},0,#{create_user},now(),#{update_user},now());
+		insert into ceptp_accessory(
+			accessory_name,
+			task_id,
+			accessory_path,
+			accessory_kind,
+			delete_flg,
+			creater,
+			create_time,
+			updater,
+			update_time,
+			accessory_id
+			
+		) values (#{accessory_name},#{task_id},#{accessory_path},#{accessory_kind},0,#{create_user},now(),#{create_user},now(),#{accessory_id});
 	</insert>
 	
 	<!-- 获取任务创建者id -->
@@ -82,5 +94,20 @@
 	
 	<select id="findCouByAppro" parameterType="java.lang.String" resultMap="course">
 		select * from ceptp_course where application_pro like CONCAT('%',#{application_pro}, '%');
+	</select>
+	
+	<!-- 通过id查询任务 -->
+	<select id="findTextByid" parameterType="java.lang.String" resultType="cn.edu.tit.course.bean.Task">
+		select * from ceptp_task where task_id = #{task_id};
+	</select>
+	
+	<!-- 根据附件id查询附件路径 -->
+	<select id="getAccPath" parameterType="java.lang.String" resultType="java.lang.String">
+		select accessory_path from ceptp_accessory where accessory_id = #{accessory_id};
+	</select>
+	
+	<!-- 根据任务id查找附件 -->
+	<select id="getAccList" parameterType="java.lang.String" resultType="cn.edu.tit.course.bean.Accessory">
+		select * from ceptp_accessory where task_id = #{task_id};
 	</select>
 </mapper>

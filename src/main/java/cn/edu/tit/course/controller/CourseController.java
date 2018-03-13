@@ -1,6 +1,17 @@
 package cn.edu.tit.course.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +27,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import cn.edu.tit.course.Iservice.ICourseService;
@@ -84,30 +97,16 @@ public class CourseController {
 	 * 发布任务
 	 * @param request
 	 */
-	@RequestMapping(value="/publishTesk")
-	public void publishTesk(HttpServletRequest request,HttpServletResponse response){
+	@RequestMapping(value="/publishTask")
+	public void publishTask(HttpServletRequest request,HttpServletResponse response){
 //		//接收参数
 //		String task_name = request.getParameter("task_name");
 ////		String course_id = request.getParameter("course_id");
 		String task_id = "1520561_1517561047582"+System.currentTimeMillis();
-//		String task_details = request.getParameter("task_details");
-////		String evaluate_kind = request.getParameter("evaluate_kind");
-////		String evaluate_id = request.getParameter("evaluate_id");
-////		String create_user = (String) request.getSession().getAttribute("username");
+//		String create_user = (String) request.getSession().getAttribute("username");
 		String username = "1520561";
-//		//封装对象
-//		Task task = new Task(task_id, task_name, "1520561_1517561047582", task_details, "jiaohsi", "1520561", "1520561");
-//		//获取附件对象集合，并存盘
-//		List<Accessory> accList = new ArrayList<>();
-//		accList = fileUtil.uploadAccessory(request, "1520561");
-//		task.setPubAccs(accList);
 		
 		try {  
-			//获取存储路径
-//			InputStream in = ClassLoader.getSystemResourceAsStream("page.properties");
-//			Properties properties = new Properties();
-//			properties.load(in);
-//			String path = properties.getProperty("path");
 			String path = "D:\\accessory\\";
             DiskFileItemFactory factory = new DiskFileItemFactory();  
             ServletFileUpload upload = new ServletFileUpload(factory);  
@@ -115,18 +114,26 @@ public class CourseController {
             List<Accessory> accList = new ArrayList<>();
             List<FileItem> items = upload.parseRequest(request);// 得到所有的文件  
             Map<String, Object> formdata = new HashMap<String, Object>();
+            String name = "";
             for (FileItem fi:items) {
             	Accessory acc = new Accessory();
             	if(!fi.isFormField()){
             		 String fileName = fi.getName();  
                      if (fileName != null) {  
                          File fullFile = new File(new String(fi.getName().getBytes(), "utf-8")); // 解决文件名乱码问题  
-                         File savedFile = new File(path, username+"_"+fullFile.getName());  
-                         fi.write(savedFile);  
-                         acc.setAccessory_name(username+"_"+fullFile.getName());
-                         acc.setAccessory_kind(1);
-                         acc.setAccessory_path(path);
-                         accList.add(acc);
+                         File savedFile = new File(path, fullFile.getName());  
+                         fi.write(savedFile); 
+                         if(!fullFile.getName().equals(name)){
+                        	 acc.setTask_id(task_id);
+                             acc.setAccessory_name(fullFile.getName());
+                             acc.setAccessory_id(username+System.currentTimeMillis());
+                             acc.setAccessory_kind(1);
+                             acc.setAccessory_path(path+acc.getAccessory_name());
+                             acc.setCreate_user(username);
+                             accList.add(acc);
+                             name = fullFile.getName();
+                         }
+                         
                      }  
             	}
             	else{
@@ -137,9 +144,9 @@ public class CourseController {
             task.setTask_id(task_id);
             task.setCourse_id("1520561_1517561047582");
             task.setPubAccs(accList);
-//            task.setEvaluate_kind("jiaoshi");
-//            task.setEvaluate_id("1520561");
-//            task.setCreate_user("1520561");
+            task.setEvaluate_kind("教师评价");
+            task.setEvaluate_id("1520561");
+            task.setCreate_user("1520561");
           //调用service方法
     		courseService.addTask(task);
         } catch (Exception e) {  
@@ -148,11 +155,124 @@ public class CourseController {
 		
 		
 	}
-	@RequestMapping(value="/uploadImage")
-	public Object uploadImage(@Param("upfile") MultipartFile img){
-			Map<String, Object> param = new HashMap<>();
-			MediaFile
+	
+	/**
+	 * 提交任务
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/uploadTask")
+	public String uploadTask(HttpServletRequest request){
+		//获取参数
+		//String task_id = request.getParameter("task_id");
+		String task_id = "1520561_15175610475821520427995506";
+		//String uploader = (String) request.getSession().getAttribute("user_id");
+		String uploader = "1520561";
+		try {  
+			String path = "D:\\accessory\\";
+            DiskFileItemFactory factory = new DiskFileItemFactory();  
+            ServletFileUpload upload = new ServletFileUpload(factory);  
+            upload.setSizeMax(4194304); // 设置最大文件尺寸，这里是4MB  
+            List<Accessory> accList = new ArrayList<>();
+            List<FileItem> items = upload.parseRequest(request);// 得到所有的文件  
+            Map<String, Object> formdata = new HashMap<String, Object>();
+            String name = "";
+            for (FileItem fi:items) {
+            	Accessory acc = new Accessory();
+            	if(!fi.isFormField()){
+            		 String fileName = fi.getName();  
+                     if (fileName != null) {  
+                         File fullFile = new File(new String(fi.getName().getBytes(), "utf-8")); // 解决文件名乱码问题  
+                         File savedFile = new File(path, fullFile.getName());  
+                         fi.write(savedFile);  
+                         if(!fullFile.getName().equals(name)){
+                        	 acc.setTask_id(task_id);
+                             acc.setAccessory_name(fullFile.getName());
+                             acc.setAccessory_id(uploader+System.currentTimeMillis());
+                             acc.setAccessory_kind(2);
+                             acc.setAccessory_path(path+acc.getAccessory_name());
+                             acc.setCreate_user(uploader);
+                             accList.add(acc);
+                             name = fullFile.getName();
+                         }
+                     }  
+            	}
+            	else{
+            		formdata.put(fi.getFieldName(), fi.getString("UTF-8"));
+            	}
+            }  
+            Task task =  CommonUtils.toBean(formdata, Task.class);
+            task.setTask_id(task_id);
+            task.setPubAccs(accList);
+            task.setCreate_user("1520561");
+          //调用service方法
+    		courseService.uploadTask(task);
+        } catch (Exception e) {  
+        	e.getMessage();
+        }  
+		return null;
 	}
 	
+
+	@RequestMapping(value="/showTask")
+	public String showTask(HttpServletRequest request){
+		Task task = courseService.secTaskByid("1520561_15175610475821520861733883");
+		//根据id查询所有附件
+		List<Accessory> accList = new ArrayList<>();
+		accList = courseService.getAccs("1520561_15175610475821520861733883");
+		task.setPubAccs(accList);
+		request.setAttribute("task", task);
+		return "jsp/uploadTask";
+	}
 	
+	/** 
+     * 下载文件 
+     * @param id appid 
+     * @param response 
+	 * @throws UnsupportedEncodingException 
+     */  
+    @RequestMapping(value="/download/{id}")  
+    public void download(@PathVariable String id, HttpServletResponse response,HttpServletRequest request) throws UnsupportedEncodingException{
+    	request.setCharacterEncoding("utf-8");
+        String filepath = "";  
+        filepath =  courseService.getaccPath(id);
+          
+        File file = new File(filepath);  
+        InputStream inputStream = null;  
+        OutputStream outputStream = null;  
+        byte[] b= new byte[1024];  
+        int len = 0;  
+        try {  
+            inputStream = new FileInputStream(file);  
+            outputStream = response.getOutputStream();  
+              
+            response.setContentType("application/force-download");  
+            String filename = file.getName();  
+            response.addHeader("Content-Disposition","attachment; filename=" + URLEncoder.encode(filename, "UTF-8"));  
+            response.setContentLength( (int) file.length( ) );  
+              
+            while((len = inputStream.read(b)) != -1){  
+                outputStream.write(b, 0, len);  
+            }  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }finally{  
+            if(inputStream != null){  
+                try {  
+                    inputStream.close();  
+                    inputStream = null;  
+                } catch (IOException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if(outputStream != null){  
+                try {  
+                    outputStream.close();  
+                    outputStream = null;  
+                } catch (IOException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+        }  
+    }  
 }

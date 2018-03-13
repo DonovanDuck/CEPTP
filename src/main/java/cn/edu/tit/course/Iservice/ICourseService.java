@@ -1,5 +1,8 @@
 package cn.edu.tit.course.Iservice;
 
+import java.util.List;
+
+import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
 
@@ -66,4 +69,25 @@ public interface ICourseService {
 	 * @return
 	 */
 	public Task secTaskBycon(String kind,String condition);
+	
+	/**
+	 * 根据id查询task
+	 * @param task_id
+	 * @return
+	 */
+	public Task secTaskByid(String task_id);
+	
+	/**
+	 * 根据id查找附件路径
+	 * @param acc_id
+	 * @return
+	 */
+	public String getaccPath(String acc_id);
+	
+	/**
+	 * 根据task_id查询附件
+	 * @param task_id
+	 * @return
+	 */
+	public List<Accessory> getAccs(String task_id);
 }

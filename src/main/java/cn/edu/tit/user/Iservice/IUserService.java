@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Workbook;
+
+import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.user.bean.User;
 
 
@@ -60,4 +62,6 @@ public interface IUserService {
 	 * @return
 	 */
 	public List<String> findUserId();
+	
+	
 }

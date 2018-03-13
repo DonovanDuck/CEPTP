@@ -72,7 +72,7 @@ public class CourseSerivceImp implements ICourseService{
 			}
 			return StatusCode.SUCCESS_CREATE;
 		} catch (Exception e) {
-			e.getMessage();
+			e.printStackTrace();
 			return StatusCode.EXECUTE_ERROR;
 		}
 	}
@@ -124,35 +124,19 @@ public class CourseSerivceImp implements ICourseService{
 		return null;
 	}
 
-	/**
-	 * 附件存盘
-	 * @param accessory
-	 * 附件
-	 */
-	public void saveAccessory(File accessory){
-		InputStream in = ClassLoader.getSystemResourceAsStream("page.properties");
-		Properties properties = new Properties();
-		BufferedOutputStream bw = null;
-		try {
-			properties.load(in);
-			//获取存储路径
-			String path = properties.getProperty("path")+accessory.getName();
-			//创建文件输入流
-			InputStream input = new FileInputStream(accessory);
-			BufferedInputStream bin = new BufferedInputStream(input);
-			byte[] b = new byte[10240];
-			//创建文件输出流
-			
-			OutputStream out = new FileOutputStream(path);
-			bw = new BufferedOutputStream(out);
-			bin.read(b);
-			bw.write(b);
-			
-			bw.flush();
-			bw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+	
+	@Override
+	public Task secTaskByid(String task_id) {
+		Task task = courseDao.findTextByid(task_id);
+		return task;
+	}
+	@Override
+	public String getaccPath(String acc_id) {
+		return courseDao.getAccPath(acc_id);
+	}
+	@Override
+	public List<Accessory> getAccs(String task_id) {
+		return courseDao.getAccList(task_id);
 	}
 }
