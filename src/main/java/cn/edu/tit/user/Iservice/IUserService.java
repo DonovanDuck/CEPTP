@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Service;
 
 import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.user.bean.User;
 
 
-
+@Service
 public interface IUserService {
 	
 	/**

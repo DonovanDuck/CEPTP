@@ -20,12 +20,17 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +41,8 @@ import cn.edu.tit.course.Iservice.ICourseService;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
+import cn.edu.tit.user.Iservice.IUserService;
+import cn.edu.tit.user.bean.User;
 import cn.edu.tit.util.FileUtil;
 import cn.itcast.commons.CommonUtils;
 
@@ -44,6 +51,8 @@ import cn.itcast.commons.CommonUtils;
 public class CourseController {
 	@Autowired
 	private ICourseService courseService;
+	@Autowired
+	private IUserService userService;
 	@Autowired
 	private FileUtil fileUtil;
 	
@@ -275,4 +284,50 @@ public class CourseController {
             }  
         }  
     }  
+    
+    /**
+     * 跳转到添加课程页面
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/toAddCourse")
+    private String toAddCourse(HttpServletRequest request){
+    	HttpSession session = request.getSession();
+    	//String user_id = (String) session.getAttribute("user_id");
+    	User user = userService.findUserById("1520561");
+    	request.setAttribute("username", user.getUser_name());
+    	return "jsp/addCourse";
+    	
+    }
+    
+    /**
+     * 跳转到添加课程页面
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/toJoinCourse")
+    private String toJoinCourse(HttpServletRequest request){
+    	HttpSession session = request.getSession();
+    	//String user_id = (String) session.getAttribute("user_id");
+    	User user = userService.findUserById("1520561");
+    	request.setAttribute("username", user.getUser_name());
+    	return "jsp/joinCourse";
+    	
+    }
+    
+    @RequestMapping(value="/Pictureshows")
+    public ResponseEntity<byte[]> Pictureshow(HttpServletRequest request)throws Exception{
+    	HttpSession session = request.getSession();
+    	String user_id = (String) session.getAttribute("user_id");
+    	User user = userService.findUserById(user_id);
+        byte[] bytes=user.getFace();
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            headers.setContentType(MediaType.IMAGE_PNG);
+            headers.setContentDispositionFormData("attachment", new String("face".getBytes("GBK"),"ISO8859-1"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<byte[]>(bytes,headers,HttpStatus.OK);
+    }
 }

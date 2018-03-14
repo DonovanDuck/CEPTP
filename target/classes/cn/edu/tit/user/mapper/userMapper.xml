@@ -9,10 +9,8 @@
 		<result column="sex" property="sex" />
 		<result column="class_name" property="class_name" />
 		<result column="professional_title" property="professional_title" />
-		<result column="degree" property="degree" />
 		<result column="detail" property="detail" />
 		<result column="face" property="face" />
-		<result column="password" property="password" />
 		<result column="pro" property="pro" />
 		<result column="qq" property="qq" />
 		<result column="mobile" property="mobile" />
