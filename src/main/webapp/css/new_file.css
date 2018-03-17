@@ -7,13 +7,7 @@ body{overflow-x: hidden;}
 .header ul li .hover{display: none;}
 .header ul li:hover .normal{display: none;}
 .header ul li:hover .hover{display: block;}
-.banner{height:590px; position: relative;margin: 0 auto;}
-.banner .tupian1{width: 10000px;height:590px;position: absolute;left:-285px;/*margin-left: -860px;*/}
-.banner .tupian1 li{ /*position: absolute;left:50%;margin-left: -860px;*/float: left;}
-/*.banner img{height:590px; position: absolute;left:50%;margin-left: -860px;}*/
-.banner ul.dian1{position: absolute;left: 50%;bottom:10%;margin-left:-77px;}
-.banner ul.dian1 li{width: 12px;height: 12px;border-radius: 12px; background-color: white;margin: 12px;}
-.banner ul.dian1 li.col{background-color:#0094E1; cursor: pointer;}
+
 .introduce{height: 300px;}
 .introduce img{display:block; position:relative;left: 50%;margin-left:-13px;margin-top: 40px;}
 .intr{text-align: center;}

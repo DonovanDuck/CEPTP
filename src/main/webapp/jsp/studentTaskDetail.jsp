@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html">
-<title>添加作业</title>
+<title>提交列表</title>
 <link href="${pageContext.request.contextPath}/css/fourthpage.css"
 	type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css"
@@ -61,6 +61,11 @@ function AddMoreRow(){
 		document.getElementById('txt').innerHTML=str;
 	}
 	
+	function downloadtest(id){
+		var url = "<%=request.getContextPath()%>/course/download" + "/" + id;
+		$("#pluginurl").attr("href",url);
+	}
+	
 </script>
 
 </head>
@@ -83,7 +88,6 @@ function AddMoreRow(){
 	</div>
 	</nav>
 	<div class="background-img">
-		<img>
 		<h5>
 			<p style="font-size: 25px;">561</p>
 			<p style="font-size: 18px;">java</p>
@@ -93,7 +97,7 @@ function AddMoreRow(){
 	<!--body-->
 	<div class="container body">
 		<!--information-->
-		<div class="information">
+		<div class="information" style="margin-bottom: 57px;">
 			<ul id="myTab" class="nav nav-tabs" style="height: 42px;">
 				<li class="fl self-pic"><img
 					src="${pageContext.request.contextPath}/img/java.jpg"></li>
@@ -110,46 +114,50 @@ function AddMoreRow(){
 				<li><a href="#group" data-toggle="tab"> 分组 </a></li>
 			</ul>
 		</div>
-		<div
-			style="width: 984px; height: 55px; margin-top: 18px; padding-top: 16px; background: #f4f4f4;">
-			<span style="font-size: 16px; margin-left: 25px;"> <a
-				href="${pageContext.request.contextPath}/course/toAddTask/${course_id}">
-					<span class="glyphicon glyphicon-cog" style="color: #ffb011;"></span>
-					<span>作业任务</span>
-			</a>
-			</span> <span style="font-size: 16px; margin-left: 25px;"> <a
-				href="${pageContext.request.contextPath}/course/toAddTask/${course_id}">
-					<span class="glyphicon glyphicon-file" style="color: #8dcf00"></span>
-					<span>实验任务</span>
-			</a>
-			</span>
-		</div>
+		
+		<!--作业详情-->
+			<input type="hidden" name="course_id" value="${task.course_id }">
+			<div>
+				<p style="font-size: 24px;position: relative;left: 472px;top:-12px;font-family: 微软雅黑">${user.user_name }的作业详情：</p>
+				<textarea id="task_details" class="" disabled="disabled" cols="188"
+					rows="10" placeholder="请输入" name="task_details"
+					style="display: none;">${task.uploadTask_details }</textarea>
+			</div>
+			<div id="txt" style="margin-bottom: 10px;background-color: #efecec;"></div>
+			<p>下载附件：</p>
+			<c:forEach items="${task.uploadAccs }" var ="acc">
+				<a href="#" onclick="javascript:downloadtest('${acc.accessory_id}')"  id="pluginurl"  style="color: #83AFE2;text-decoration:underline;">${acc.accessory_name }</a>
+				</br>
+			</c:forEach>
+			
+			<div style="margin-top: 28px;">
+			</div>
+			<c:if test="${status == 2 && grade==-1}">
+				<div>
+					<p>总体评分：</p>
+					<form action="${pageContext.request.contextPath}/course/setGrade">
+						<input type="hidden" name="task_id" value="${task.task_id }"/>
+						<input type="hidden" name="user_id" value="${user.user_id }"/>
+						<div class="input-group" style="width: 188px;">
+      <input type="text" class="form-control" placeholder="评分" name="grade">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">搜索</button>
+      </span>
+    </div>
+					</form>
+				</div>
+			</c:if>
+			
+			<c:if test="${status==2 && grade!=-1 }">
+				<div>
+					<span>总体评分：</span>
+					<span style="font-size: 32px;color: #ff6600;position: relative;top:6px;left: -4px;">${grade }</span>
+					<a href="${pageContext.request.contextPath}/course/toupdateGrade/${task.task_id}/${user.user_id}"><span style="font-size: 14px;position: relative;top:2px;left: 10px;">修改成绩</span></a>
+				</div>
+			</c:if>
+			
 	</div>
-	<a href="${pageContext.request.contextPath}/course/toStudentUpList/1">
-	<div style="margin-left: 119px;margin-top: 19px;height: 100px;width: 533px;">
-		<div class="pic">
-		<img src="img/2.png" />
-	</div>
-	<div class="cent">
-		<span>进行中</span> 课后调查 <br />
-		<ul>
-			<li class="fl">共5道题目</li>
-			<li class="fl">|</li>
-			<li class="fl">共51人作答</li>
-			<li class="fl">|</li>
-			<li class="fl">2018-1-20</li>
-			<li class="fl">|</li>
-			<li class="fl"><a href="">3经验</a></li>
-		</ul>
-	</div>
-	</a>
-	</div>
-	
 
 </body>
-<script type="text/javascript" charset="utf-8">
-	UE.getEditor('task_details');
-	
-	
-</script>
+
 </html>

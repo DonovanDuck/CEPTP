@@ -45,6 +45,7 @@
     </div>
     <div>
     	<ul style="width: 1087px;height:  300px;margin-left: 178px;margin-top: 90px;">
+    		<a href="${pageContext.request.contextPath}/course/toIntoCourse/152056138_372388382828">
     		<li style="float: left;width: 225px;height: 352px;margin-right: 31px;margin-bottom: 42px;">
     			<div style="width: 225px;height: 222px;">
     				<img style="width: 100%;height: 100%;" alt="" src="${pageContext.request.contextPath}/img/background.jpg">
@@ -59,6 +60,7 @@
     				<span style="float: left;font-family: 微软雅黑;margin-left: 11px;padding-top: 6px;">发布者</span>
     			</div>
     		</li>
+    		</a>
     		
     		
     		

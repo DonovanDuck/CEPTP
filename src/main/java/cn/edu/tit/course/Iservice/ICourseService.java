@@ -44,11 +44,6 @@ public interface ICourseService {
 	 */
 	public void uploadTask(Task task);
 	
-	/**
-	 * 评价任务
-	 * @param grade
-	 */
-	public void evaluateTask(int grade,String task_id);
 	
 	/**
 	 * 根据条件查找课程
@@ -89,5 +84,41 @@ public interface ICourseService {
 	 * @param task_id
 	 * @return
 	 */
-	public List<Accessory> getAccs(String task_id);
+	public List<Accessory> getAccs(String task_id,int kind);
+	
+	/**
+	 * 根据id查询提交任务
+	 * @param task_id
+	 * @return
+	 */
+	public List<Task> getUploadByid(String task_id);
+	
+	/**
+	 * 根据userid和taskid查找提交任务
+	 * @param task_id
+	 * @param user_id
+	 * @return
+	 */
+	public Task getUpload(String task_id,String user_id);
+	/**
+	 * 根据taskid查状态
+	 * @param task_id
+	 * @return
+	 */
+	public int getTaskStatus(String task_id);
+	
+	/**
+	 * 根据taskid查成绩
+	 * @param task_id
+	 * @return
+	 */
+	public int getTaskGrade(String task_id,String user_id);
+	
+	/**
+	 * 评分
+	 * @param grade
+	 * @param task_id
+	 * @param user_id
+	 */
+	public void setgrade(int grade,String task_id,String user_id);
 }

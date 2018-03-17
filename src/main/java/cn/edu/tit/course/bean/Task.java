@@ -17,6 +17,8 @@ public class Task {
 	private List<Accessory> uploadAccs; //提交附件
 	private String grade; //成绩
 	
+	private int status; //任务状态（1：发布，2：评价：3：结束）
+	
 	private Boolean delete_flg;//是否删除
 	private String create_user;//任务创建者
 	private String create_time;//创建时间
@@ -27,6 +29,12 @@ public class Task {
 	
 	public String getTask_id() {
 		return task_id;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public String getEvaluate_kind() {
 		return evaluate_kind;

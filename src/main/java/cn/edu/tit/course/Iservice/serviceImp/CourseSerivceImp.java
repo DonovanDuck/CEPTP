@@ -99,16 +99,7 @@ public class CourseSerivceImp implements ICourseService{
 		}
 	}
 
-	@Transactional
-	@Override
-	public void evaluateTask(int grade,String task_id) {
-		//将评分给相应的任务
-		try {
-			courseDao.evaluateTask(grade, task_id);
-		} catch (Exception e) {
-			e.getMessage();
-		}
-	}
+	
 
 	@Transactional
 	@Override
@@ -136,7 +127,29 @@ public class CourseSerivceImp implements ICourseService{
 		return courseDao.getAccPath(acc_id);
 	}
 	@Override
-	public List<Accessory> getAccs(String task_id) {
-		return courseDao.getAccList(task_id);
+	public List<Accessory> getAccs(String task_id,int kind) {
+		return courseDao.getAccList(task_id,kind);
 	}
+	@Override
+	public List<Task> getUploadByid(String task_id) {
+		return courseDao.getUpbyid(task_id);
+	}
+	@Override
+	public Task getUpload(String task_id, String user_id) {
+		return courseDao.getupload(task_id, user_id);
+	}
+	@Override
+	public int getTaskStatus(String task_id) {
+		return courseDao.findTaskStatus(task_id);
+	}
+	@Transactional
+	@Override
+	public void setgrade(int grade, String task_id, String user_id) {
+		courseDao.updategrade(grade, task_id, user_id);
+	}
+	@Override
+	public int getTaskGrade(String task_id,String user_id) {
+		return courseDao.findTaskGrade(task_id,user_id);
+	}
+	
 }

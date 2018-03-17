@@ -48,7 +48,7 @@
 	<!-- 发布任务 -->
 	<insert id="addTask" parameterType="cn.edu.tit.course.bean.Task">
 		insert into ceptp_task values (#{task_id},#{task_name},#{course_id},#{task_details},
-		#{evaluate_id},#{evaluate_kind},0,#{create_user},now(),#{create_user},now());
+		#{evaluate_id},#{evaluate_kind},0,#{create_user},now(),#{create_user},now(),#{status});
 	</insert>
 	
 	<!-- 添加附件 -->
@@ -75,13 +75,9 @@
 	
 	<!-- 将提交的任务存放到数据库 -->
 	<insert id="uploadTask" parameterType="cn.edu.tit.course.bean.Task">
-		insert into ceptp_upload_task values (#{task_id},#{uploader},#{uploadTask_details},#{grade},0,#{create_user},now(),#{create_user},now());
+		insert into ceptp_upload_task values (#{task_id},#{uploader},#{uploadTask_details},-1,0,#{create_user},now(),#{create_user},now());
 	</insert>
 	
-	<!-- 给任务相应的评分 -->
-	<update id="evaluateTask" parameterType="java.util.HashMap">
-		update ceptp_upload_task set grade = #{grade}  where task_id = #{task_id};
-	</update>
 	
 	<!-- 查询课程 -->
 	<select id="findCouByName" parameterType="java.lang.String" resultMap="course">
@@ -107,7 +103,32 @@
 	</select>
 	
 	<!-- 根据任务id查找附件 -->
-	<select id="getAccList" parameterType="java.lang.String" resultType="cn.edu.tit.course.bean.Accessory">
-		select * from ceptp_accessory where task_id = #{task_id};
+	<select id="getAccList" parameterType="java.util.HashMap" resultType="cn.edu.tit.course.bean.Accessory">
+		select * from ceptp_accessory where task_id = #{task_id} and accessory_kind=#{kind};;
 	</select>
+	
+	<!-- 通过id查询任务 -->
+	<select id="getUpbyid" parameterType="java.lang.String" resultType="cn.edu.tit.course.bean.Task">
+		select * from ceptp_upload_task where task_id = #{task_id};
+	</select>
+	
+	<!-- 根据task_id 和 user_id查找task -->
+ 	<select id="getupload" parameterType="java.util.HashMap" resultType="cn.edu.tit.course.bean.Task">
+ 		select * from ceptp_upload_task where task_id = #{task_id} and uploader = #{user_id};
+ 	</select>
+ 	
+ 	<!-- 根据taskid查状态 -->
+ 	<select id="findTaskStatus" parameterType="java.lang.String" resultType="int">
+ 		select status from ceptp_task where task_id = #{task_id};
+ 	</select>
+ 	
+ 	<!-- 根据taskid查状态 -->
+ 	<select id="findTaskGrade" parameterType="java.util.HashMap" resultType="int">
+ 		select grade from ceptp_upload_task where task_id = #{task_id} and uploader = #{user_id};
+ 	</select>
+ 	
+ 	<!-- 评分 -->
+ 	<update id="updategrade">
+ 		update ceptp_upload_task set grade=#{grade} where task_id = #{task_id} and uploader = #{user_id}; 
+ 	</update>
 </mapper>

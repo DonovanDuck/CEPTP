@@ -58,9 +58,6 @@ public class Text {
     	courseSerivce.uploadTask(t);
     	
     }
-    public void evtask(){
-    	courseDao.evaluateTask(10, "1");
-    }
     @Test
     public void findCourse(){
 //    	List<Course> cl = new ArrayList<>();
@@ -68,10 +65,8 @@ public class Text {
 //    	for(Course c : cl){
 //    		System.out.println(c.getCourse_id());
 //    	}
-    	List<Accessory> aList = new ArrayList<>();
-    	aList = courseSerivce.getAccs("1520561_15175610475821520760312980");
-    	for(Accessory a:aList ){
-    		System.out.println(a.getAccessory_path());
-    	}
+    	
+    	
+    	System.out.println(courseDao.findTaskGrade("1520561_15175610475821520861733883","1520561"));
     }
 }

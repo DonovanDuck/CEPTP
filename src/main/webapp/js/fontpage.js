@@ -104,7 +104,7 @@ window.onload = function() {
     function playing() {
         timer = setInterval(function() {
             prev.onclick()
-        }, 1000)
+        }, 4000)
     }
     // function stop(){
     //     clearInterval(timer);

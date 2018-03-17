@@ -3,6 +3,7 @@ package cn.edu.tit.course.Idao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.junit.runners.Parameterized.Parameters;
 import org.springframework.stereotype.Component;
 
 import cn.edu.tit.course.bean.Accessory;
@@ -61,11 +62,6 @@ public interface ICourseDao {
 	 */
 	public void uploadTask(Task task);
 	
-	/**
-	 * 给任务相应的评分
-	 * @param grade
-	 */
-	public void evaluateTask(@Param("grade")int grade,@Param("task_id")String task_id);
 	
 	/*
 	 * 课程查找
@@ -134,5 +130,41 @@ public interface ICourseDao {
 	 * @param task_id
 	 * @return
 	 */
-	public List<Accessory> getAccList(String task_id);
+	public List<Accessory> getAccList(@Param("task_id")String task_id,@Param("kind") int kind);
+	
+	/**
+	 * 根据id查提交任务
+	 * @param task_id
+	 * @return
+	 */
+	public List<Task> getUpbyid(String task_id);
+	
+	/**
+	 * 根据task_id 和 user_id查找task
+	 * @param task_id
+	 * @param user_id
+	 * @return
+	 */
+	public Task getupload(@Param("task_id")String task_id,@Param("user_id")String user_id); 
+	/**
+	 * 根据taskid查状态
+	 * @param task_id
+	 * @return
+	 */
+	public int findTaskStatus(String task_id);
+	
+	/**
+	 * 根据taskid查成绩
+	 * @param task_id
+	 * @return
+	 */
+	public int findTaskGrade(@Param("task_id")String task_id,@Param("user_id")String user_id);
+	
+	/**
+	 * 评分
+	 * @param grade
+	 * @param task_id
+	 * @param user_id
+	 */
+	public void updategrade(@Param("grade")int grade, @Param("task_id")String task_id, @Param("user_id")String user_id);
 }
