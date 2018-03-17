@@ -52,4 +52,6 @@ public interface IUserDao {
 	 * public List<Teacher> findUserByCondition(@Param("staff_id")String
 	 * staff_id, @Param("role_id")String role_id);
 	 */
+	
+	public User login(@Param("username")String username,@Param("password")String password);
 }

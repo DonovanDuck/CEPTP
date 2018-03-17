@@ -24,6 +24,7 @@
 <script
 	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
+a{color: #666;}
 .banner {
 	height: 360px;
 	position: relative;
@@ -80,12 +81,34 @@
 .publisher span{float: left; font-family: 微软雅黑; margin-left: 11px; padding-top: 6px;}
 .course_title{font-family: 微软雅黑;position: relative;top:-14px;left: 175px;}
 .more{float: right;position: relative;top:-24px;left: 137px;}
+.Clable{width: 930px;height: 129px;position: relative;left: 216px;top:10px;}
+.Clable ul{width: 930px;height: 129px;}
+.Clable ul li{
+	padding-top: 1px;
+    width: 125px;
+    height: 30px;
+    line-height: 30px;
+    float: left;
+    margin-right: 7px;
+    text-align: center;
+    background: #f8f8f8;
+}
+.Clable ul li:hover{color: #55b929;}
+.lable_span{
+	display: inline-block;
+    padding: 0 20px;
+    width: 88px;
+    overflow: hidden;
+    font-size: 13px;
+}
+.lable_span:hover{background: #55b929;color: #fff}
+
 </style>
 
 </head>
 <body onload="myfun()">
 	<!--header-->
-	<header class="header"> <nav class="navbar navbar-default"
+ <nav class="navbar navbar-default"
 		role="navigation" style="width:1120px;margin-left:107px;">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -101,6 +124,8 @@
 		</ul>
 	</div>
 	</nav>
+	
+	
 	<div class="input-group"
 		style="width: 738px; position: relative; left: 487px; top: 29px;margin-bottom: 55px">
 		<input type="text" class="form-control" placeholder="搜索课程"> <span
@@ -113,6 +138,51 @@
 		</span>
 	</div>
 
+	<div class="Clable">
+		<ul>
+			<li>
+				<a href="${pageContext.request.contextPath}/course/findCouByPage/'计算机'"><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href="${pageContext.request.contextPath}/course/findCouByPage/'计算机'"><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href="${pageContext.request.contextPath}/course/findCouByPage/'计算机'"><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href="${pageContext.request.contextPath}/course/findCouByPage/'计算机'"><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href="${pageContext.request.contextPath}/course/findCouByPage/'计算机'"><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href=""><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href=""><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href=""><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href=""><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href=""><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href=""><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href=""><span class="lable_span">计算机</span></a>
+			</li>
+			<li>
+				<a href=""><span class="lable_span">计算机</span></a>
+			</li>
+			
+		</ul>
+	</div>
+	
 	<div class="banner pr overhidden">
 		<ul class="tupian1">
 			<li class="fl"><img
@@ -133,7 +203,6 @@
 		</ul>
 	</div>
 
-	
 	<div class="course">
 		<div class="course_title">
 		<h3>创建的课程</h3>
@@ -158,11 +227,6 @@
 					</div>
 			</li>
 			</a>
-
-
-
-			
-			
 			<a
 				href="${pageContext.request.contextPath}/course/toIntoCourse/152056138_372388382828">
 				<li>
@@ -235,7 +299,7 @@
 	</div>
 		<ul>
 			<a
-				href="${pageContext.request.contextPath}/course/toIntoCourse/152056138_372388382828">
+				href="${pageContext.request.contextPath}/course/toIntoCourset/152056138_372388382828">
 				<li
 				style="float: left; width: 225px; height: 352px; margin-right: 31px; margin-bottom: 42px;">
 					<div style="width: 225px; height: 222px;">

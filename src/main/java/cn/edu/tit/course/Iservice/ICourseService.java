@@ -5,6 +5,7 @@ import java.util.List;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
+import cn.edu.tit.pager.PagerBean;
 
 public interface ICourseService {
 	/**
@@ -53,7 +54,7 @@ public interface ICourseService {
 	 * 查询的条件
 	 * @return
 	 */
-	public Course secCourseBycon(String kind,String condition);
+	public Course secCourseByid(String course_id);
 	
 	/**
 	 * 根据条件查找任务
@@ -121,4 +122,14 @@ public interface ICourseService {
 	 * @param user_id
 	 */
 	public void setgrade(int grade,String task_id,String user_id);
+	
+	/**
+	 * 分页查询课程
+	 * @param pc
+	 * @param course_label
+	 * @return
+	 */
+	public PagerBean<Course> getCPage(int pc,String course_label);
+	
+	
 }

@@ -60,7 +60,7 @@
 			<span>添加课程图片</span><br />
 			<div class="clphoto">
 				<label for="file" class="filephoto">+</label>
-				<input type="file" id="file" style="display:none;" name="course_img">
+				<input type="file" id="file" style=";" name="course_img">
 			</div>
 			<div class="sub">
 				<button type="submit" class="btn btn-default" style="margin-right: 200px">提交</button>

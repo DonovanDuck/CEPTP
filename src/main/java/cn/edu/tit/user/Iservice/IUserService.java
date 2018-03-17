@@ -64,5 +64,7 @@ public interface IUserService {
 	 */
 	public List<String> findUserId();
 	
+	public User login(String username,String password);
+	
 	
 }

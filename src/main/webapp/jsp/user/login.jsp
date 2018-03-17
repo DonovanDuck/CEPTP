@@ -166,7 +166,7 @@
               
             </div>
             <div>
-              <form target="_top" action="<c:url value='/UserServlet'/>" method="post" id="loginForm">
+              <form target="_top" action="${pageContext.request.contextPath}/user/login" method="post" id="loginForm">
                 <input type="hidden" name="method" value="login" />
                   <table>
                     <tr>

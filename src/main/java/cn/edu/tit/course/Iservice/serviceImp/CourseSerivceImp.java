@@ -25,6 +25,8 @@ import cn.edu.tit.course.Iservice.ICourseService;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
+import cn.edu.tit.pager.PageConstents;
+import cn.edu.tit.pager.PagerBean;
 import cn.edu.tit.util.StatusCode;
 @Service
 public class CourseSerivceImp implements ICourseService{
@@ -101,13 +103,7 @@ public class CourseSerivceImp implements ICourseService{
 
 	
 
-	@Transactional
-	@Override
-	public Course secCourseBycon(String kind, String condition) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Transactional
 	@Override
 	public Task secTaskBycon(String kind, String condition) {
@@ -150,6 +146,27 @@ public class CourseSerivceImp implements ICourseService{
 	@Override
 	public int getTaskGrade(String task_id,String user_id) {
 		return courseDao.findTaskGrade(task_id,user_id);
+	}
+	@Override
+	public PagerBean<Course> getCPage(int pc, String course_label) {
+		//获取总记录数
+		int tr = courseDao.getCNumByLable(course_label);
+		//获得每页记录数
+		int ps = PageConstents.COURSE_PAGE_SIZE;
+		int begin = (pc-1)*ps;
+		int end = ps;
+		List<Course> beanList =  courseDao.getCByPage(course_label, begin, end);
+		PagerBean<Course> pg = new PagerBean<>();
+		pg.setBeanList(beanList);
+		pg.setPc(pc);
+		pg.setPs(ps);
+		pg.setTr(tr);
+		return pg;
+	}
+	@Override
+	public Course secCourseByid(String course_id) {
+		
+		return courseDao.findcByid(course_id);
 	}
 	
 }

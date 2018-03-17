@@ -272,5 +272,11 @@ public class UserServiceImp implements IUserService {
 		userDao.importInfo(user);
 	}
 
+	@Override
+	public User login(String username, String password) {
+		// TODO Auto-generated method stub
+		return userDao.login(username, password);
+	}
+
 	
 }

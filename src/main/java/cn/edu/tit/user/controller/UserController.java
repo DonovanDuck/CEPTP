@@ -113,6 +113,20 @@ public class UserController {
 		String page = roleUtil.getPage("login");
 		return page;
 	}
+	@RequestMapping(value="/login")
+	public String login(HttpServletRequest request){
+		String username = request.getParameter("loginname");
+		String password = request.getParameter("loginpass");
+		User user = userService.login(username, password);
+		if(user == null){
+			request.setAttribute("msg", "用户名或密码错误");
+			return "jsp/user/login";
+		}
+		else{
+			return "jsp/main";
+		}
+	}
+	
 	/**
 	 * 验证码
 	 */

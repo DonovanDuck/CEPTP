@@ -20,7 +20,9 @@ import cn.edu.tit.course.Iservice.serviceImp.CourseSerivceImp;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
+import cn.edu.tit.pager.PagerBean;
 import cn.edu.tit.user.Iservice.IUserService;
+import cn.edu.tit.user.bean.User;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类  
@@ -31,6 +33,8 @@ public class Text {
 
 
    
+	@Resource
+	private IUserService userS;
     @Resource
     private ICourseService courseSerivce;
     @Resource
@@ -65,8 +69,8 @@ public class Text {
 //    	for(Course c : cl){
 //    		System.out.println(c.getCourse_id());
 //    	}
-    	
-    	
-    	System.out.println(courseDao.findTaskGrade("1520561_15175610475821520861733883","1520561"));
+
+    	User user = userS.login("152056138", "123");
+    	System.out.println(user.getUser_name());
     }
 }

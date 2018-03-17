@@ -54,4 +54,8 @@
 		select staff_id from
 		ceptp_user;
 	</select>
+	
+	<select id="login" parameterType="java.util.HashMap" resultMap="user">
+		select * from ceptp_user where user_id = #{username} and password=#{password}
+	</select>
 </mapper>

@@ -167,4 +167,27 @@ public interface ICourseDao {
 	 * @param user_id
 	 */
 	public void updategrade(@Param("grade")int grade, @Param("task_id")String task_id, @Param("user_id")String user_id);
+	
+	/**
+	 * 根据标签查总记录数
+	 * @param course_label
+	 * @return
+	 */
+	public int getCNumByLable(String course_label);
+	
+	/**
+	 * 分页查课程
+	 * @param course_label
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
+	public List<Course> getCByPage(@Param("course_label")String course_label,@Param("begin")int begin,@Param("end")int end);
+	
+	/**
+	 * 根据id查找课程
+	 * @param course_id
+	 * @return
+	 */
+	public Course findcByid(String course_id);
 }

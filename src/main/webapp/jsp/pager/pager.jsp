@@ -11,7 +11,7 @@
 			alert('请输入正确的页码！');
 			return;
 		}
-		location = "${pb.url}&pc="+pc;
+		location = "${pb.url}/"+pc;
 	}
 </script>
 
@@ -21,7 +21,7 @@
     <%--上一页 --%>
 <c:choose>
 <c:when test="${pb.pc eq 1 }"><span class="spanBtnDisabled">上一页</span></c:when>
-<c:otherwise><a href="${pb.url }&pc=${pb.pc-1 }" class="aBtn bold">上一页</a></c:otherwise>
+<c:otherwise><a href="${pb.url }/${pb.pc-1 }" class="aBtn bold">上一页</a></c:otherwise>
 </c:choose>
         
        
@@ -66,7 +66,7 @@
     			<span class="spanBtnSelect">${i }</span>
     		</c:when>
     		<c:otherwise>
-    			<a href="${pb.url }&pc=${i}" class="aBtn">${i }</a>
+    			<a href="${pb.url }/${i}" class="aBtn">${i }</a>
     		</c:otherwise>
     	</c:choose>
     	</c:forEach>
@@ -89,7 +89,7 @@
      <%--下一页 --%>
      <c:choose>
 	<c:when test="${pb.pc eq pb.tp }"><span class="spanBtnDisabled">下一页</span></c:when>
-	<c:otherwise><a href="${pb.url }&pc=${pb.pc+1}" class="aBtn bold">下一页</a></c:otherwise>
+	<c:otherwise><a href="${pb.url }/${pb.pc+1}" class="aBtn bold">下一页</a></c:otherwise>
 	</c:choose>
         
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

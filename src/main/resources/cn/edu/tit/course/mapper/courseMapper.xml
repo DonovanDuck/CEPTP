@@ -37,7 +37,7 @@
 	
 	<!-- 获取邀请码 -->
 	<select id="getverify" parameterType="java.lang.String" resultMap="cuserAndcode">
-		select creater,invitation_code from ceptp_course where 	course_id = #{course_id};
+		select create_user,invitation_code from ceptp_course where 	course_id = #{course_id};
 	</select>
 	
 	<!-- 加入课程 -->
@@ -131,4 +131,20 @@
  	<update id="updategrade">
  		update ceptp_upload_task set grade=#{grade} where task_id = #{task_id} and uploader = #{user_id}; 
  	</update>
+ 	
+ 	<!-- 根据标签查总记录数 -->
+ 	<select id="getCNumByLable" parameterType="String" resultType="int">
+ 		select count(*) from ceptp_course where course_label=#{course_label};
+ 	</select>
+ 
+ 	<!-- 分页查课程 -->
+ 	<select id="getCByPage" parameterType="java.util.HashMap" resultMap="course">
+ 		select * from ceptp_course where course_label=#{course_label} limit #{begin},#{end};
+ 	</select>
+ 	
+ 	<!-- 根据id查找课程 -->
+ 	<select id="findcByid" parameterType="String" resultMap="course">
+ 		select * from ceptp_course where course_id = #{course_id};
+ 	</select>
+ 	
 </mapper>

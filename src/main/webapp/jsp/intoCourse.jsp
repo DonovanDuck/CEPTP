@@ -125,7 +125,7 @@ function AddMoreRow(){
 			</span>
 		</div>
 	</div>
-	<a href="${pageContext.request.contextPath}/course/toStudentUpList/1">
+	<a href="${pageContext.request.contextPath}/course/toStudentUpList/1520561_15175610475821520861733883">
 	<div style="margin-left: 119px;margin-top: 19px;height: 100px;width: 533px;">
 		<div class="pic">
 		<img src="img/2.png" />

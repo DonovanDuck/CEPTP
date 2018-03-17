@@ -2,6 +2,7 @@ package cn.edu.tit.course.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -43,6 +45,7 @@ import cn.edu.tit.course.Iservice.ICourseService;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
+import cn.edu.tit.pager.PagerBean;
 import cn.edu.tit.user.Iservice.IUserService;
 import cn.edu.tit.user.bean.User;
 import cn.edu.tit.util.FileUtil;
@@ -57,6 +60,50 @@ public class CourseController {
 	private IUserService userService;
 	@Autowired
 	private FileUtil fileUtil;
+	
+	/**
+	 * 获取到当前页页码
+	 */
+	private int getPc(int rpc){
+		int pc = 1;
+		int param = rpc;
+		
+		if(rpc != 0){
+			 pc = rpc;
+			
+		}
+		return pc;
+	}
+	
+	private String getUrl(HttpServletRequest req){
+		String url = req.getRequestURI();
+		int index = url.lastIndexOf("/");
+		url = url.substring(0, index);
+		return url;
+	}
+	
+	/**
+	 * 分页查找课程
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/findCouByPage/{course_label}/{page}")
+	public String findCouByPage(HttpServletRequest request ,@PathVariable String course_label,@PathVariable int page){
+		//获取当前页码
+		int pc = getPc(page);
+		//获取课程相应pagebean
+		PagerBean<Course> pcourse = courseService.getCPage(pc, course_label);
+		pcourse.setUrl(getUrl(request));
+		List<String> usernames = new ArrayList<>();
+		for(Course c:pcourse.getBeanList()){
+			usernames.add(userService.findUserById(c.getCreate_user()).getUser_name());
+		}
+		request.setAttribute("courseList", pcourse.getBeanList());
+		request.setAttribute("usernames", usernames);
+		request.setAttribute("pb", pcourse);
+		return "jsp/dep_course";
+	}
+	
 
 	/**
 	 * 添加课程
@@ -106,7 +153,7 @@ public class CourseController {
 		String invitation_code = request.getParameter("invitation_code");
 		// 调用业务逻辑
 		courseService.joinCourse(invitation_code, "1520561", "1520561_1517561047582");
-		return null;
+		return "jsp/main";
 	}
 
 	/**
@@ -115,7 +162,7 @@ public class CourseController {
 	 * @param request
 	 */
 	@RequestMapping(value = "/publishTask")
-	public void publishTask(HttpServletRequest request, HttpServletResponse response) {
+	public String publishTask(HttpServletRequest request, HttpServletResponse response) {
 		// //接收参数
 		// String task_name = request.getParameter("task_name");
 		//// String course_id = request.getParameter("course_id");
@@ -170,7 +217,7 @@ public class CourseController {
 		} catch (Exception e) {
 			e.getMessage();
 		}
-
+		return null;
 	}
 
 	/**
@@ -457,6 +504,23 @@ public class CourseController {
 		return "jsp/intoCourse";
 
 	}
+	
+	/**
+	 * 跳转到课程详细页面
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/toIntoCourset/{course_id}")
+	private String toIntoCourset(HttpServletRequest request, @PathVariable String course_id) {
+		HttpSession session = request.getSession();
+		// String user_id = (String) session.getAttribute("user_id");
+		User user = userService.findUserById("1520561");
+		request.setAttribute("username", user.getUser_name());
+		request.setAttribute("course_id", course_id);
+		return "jsp/intoCourse2";
+
+	}
 
 	/**
 	 * 跳转到添加任务页面
@@ -489,5 +553,28 @@ public class CourseController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value ="/coursePictureshows/{course_id}" )
+	public void coursePictureshow(HttpServletRequest request,@PathVariable String course_id,HttpServletResponse response) throws Exception {
+		ServletOutputStream out = null;  
+		Course course = courseService.secCourseByid(course_id);
+		byte[] bytes = course.getCourse_img();
+		try {  
+			
+//            System.out.println("内容是:"+bytes.length);  
+            InputStream is = new ByteArrayInputStream(bytes);  
+            out = response.getOutputStream();  
+            int len=0;  
+            byte[]buf=new byte[1024];  
+            while((len=is.read(buf,0,1024))!=-1){  
+                out.write(buf, 0, len);  
+            }  
+
+            out.flush();  
+            out.close();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
 	}
 }
