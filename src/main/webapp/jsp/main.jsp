@@ -119,7 +119,7 @@ a{color: #666;}
 			<li><a href="#"> 课程包</a></li>
 			<li><a href="#"> 库管理</a></li>
 			<li><a href="#"> 我的题库</a></li>
-			<li><a href="#"> 用户名</a></li>
+			<li><a href="#"> ${username }</a></li>
 			<li><a href="#"> 退出</a></li>
 		</ul>
 	</div>
@@ -202,89 +202,33 @@ a{color: #666;}
 			<li class="fl"></li>
 		</ul>
 	</div>
-
-	<div class="course">
+	<c:if test="${!empty mycourses }">
+		<div class="course">
 		<div class="course_title">
 		<h3>创建的课程</h3>
 	</div>
 		<ul>
+		<c:forEach items="${mycourses }" var="course">
 			<a
-				href="${pageContext.request.contextPath}/course/toIntoCourse/152056138_372388382828">
+				href="${pageContext.request.contextPath}/course/toIntoCourse/${course.course_id}">
 				<li>
 					<div class="course_img" >
 						<img alt=""
 							src="${pageContext.request.contextPath}/img/background.jpg">
 					</div>
 					<div>
-						<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
+						<h3 style="font-family: 微软雅黑; font-size: 18px">${course.course_name }</h3>
 					</div>
-					<div class="course_d">学期</div>
-					<div class="course_d">专业</div>
+					<div class="course_d">${course.schoolTerm }</div>
+					<div class="course_d">${course.application_pro }</div>
 					<div class="publisher">
 						<img alt=""
 							src="${pageContext.request.contextPath}/img/background.jpg">
-						<span>发布者</span>
+						<span>${course.publisher }</span>
 					</div>
 			</li>
 			</a>
-			<a
-				href="${pageContext.request.contextPath}/course/toIntoCourse/152056138_372388382828">
-				<li>
-					<div class="course_img" >
-						<img alt=""
-							src="${pageContext.request.contextPath}/img/background.jpg">
-					</div>
-					<div>
-						<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
-					</div>
-					<div class="course_d">学期</div>
-					<div class="course_d">专业</div>
-					<div class="publisher">
-						<img alt=""
-							src="${pageContext.request.contextPath}/img/background.jpg">
-						<span>发布者</span>
-					</div>
-			</li>
-			</a>
-			<a
-				href="${pageContext.request.contextPath}/course/toIntoCourse/152056138_372388382828">
-				<li>
-					<div class="course_img" >
-						<img alt=""
-							src="${pageContext.request.contextPath}/img/background.jpg">
-					</div>
-					<div>
-						<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
-					</div>
-					<div class="course_d">学期</div>
-					<div class="course_d">专业</div>
-					<div class="publisher">
-						<img alt=""
-							src="${pageContext.request.contextPath}/img/background.jpg">
-						<span>发布者</span>
-					</div>
-			</li>
-			</a>
-			<a
-				href="${pageContext.request.contextPath}/course/toIntoCourse/152056138_372388382828">
-				<li>
-					<div class="course_img" >
-						<img alt=""
-							src="${pageContext.request.contextPath}/img/background.jpg">
-					</div>
-					<div>
-						<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
-					</div>
-					<div class="course_d">学期</div>
-					<div class="course_d">专业</div>
-					<div class="publisher">
-						<img alt=""
-							src="${pageContext.request.contextPath}/img/background.jpg">
-						<span>发布者</span>
-					</div>
-			</li>
-			</a>
-			
+		</c:forEach>
 		</ul>
 		<div class="more">
 		<a href="${pageContext.request.contextPath}/jsp/myclass.jsp">
@@ -292,130 +236,43 @@ a{color: #666;}
 		</div>
 		</a>
 	</div>
+	</c:if>
 	
+	<c:if test="${!empty joincourses}">
 	<div class="course">
 	<div class="course_title">
 		<h3>加入的课程</h3>
 	</div>
 		<ul>
+		<c:forEach items="${joincourses }" var="course">
 			<a
-				href="${pageContext.request.contextPath}/course/toIntoCourset/152056138_372388382828">
-				<li
-				style="float: left; width: 225px; height: 352px; margin-right: 31px; margin-bottom: 42px;">
-					<div style="width: 225px; height: 222px;">
-						<img style="width: 100%; height: 100%;" alt=""
+				href="${pageContext.request.contextPath}/course/toIntoCourset/${course.course_id}">
+				<li>
+					<div class="course_img" >
+						<img alt=""
 							src="${pageContext.request.contextPath}/img/background.jpg">
 					</div>
 					<div>
-						<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
+						<h3 style="font-family: 微软雅黑; font-size: 18px">${course.course_name }</h3>
 					</div>
-					<div
-						style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">学期</div>
-					<div
-						style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">专业</div>
-					<div>
-						<img
-							style="width: 30px; height: 30px; float: left; margin-right: 5px; border-radius: 50%;"
-							alt=""
+					<div class="course_d">${course.schoolTerm }</div>
+					<div class="course_d">${course.application_pro }</div>
+					<div class="publisher">
+						<img alt=""
 							src="${pageContext.request.contextPath}/img/background.jpg">
-						<span
-							style="float: left; font-family: 微软雅黑; margin-left: 11px; padding-top: 6px;">发布者</span>
+						<span>${course.publisher }</span>
 					</div>
 			</li>
 			</a>
-
-
-
-			<li
-				style="float: left; width: 225px; height: 352px; margin-right: 31px; margin-bottom: 42px;">
-				<div style="width: 225px; height: 222px;">
-					<img style="width: 100%; height: 100%;" alt=""
-						src="${pageContext.request.contextPath}/img/background.jpg">
-				</div>
-				<div>
-					<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
-				</div>
-				<div
-					style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">学期</div>
-				<div
-					style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">专业</div>
-				<div>
-					<img
-						style="width: 30px; height: 30px; float: left; margin-right: 5px; border-radius: 50%;"
-						alt="" src="${pageContext.request.contextPath}/img/background.jpg">
-					<span
-						style="float: left; font-family: 微软雅黑; margin-left: 11px; padding-top: 6px;">发布者</span>
-				</div>
-			</li>
-			<li
-				style="float: left; width: 225px; height: 352px; margin-right: 31px; margin-bottom: 42px;">
-				<div style="width: 225px; height: 222px;">
-					<img style="width: 100%; height: 100%;" alt=""
-						src="${pageContext.request.contextPath}/img/background.jpg">
-				</div>
-				<div>
-					<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
-				</div>
-				<div
-					style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">学期</div>
-				<div
-					style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">专业</div>
-				<div>
-					<img
-						style="width: 30px; height: 30px; float: left; margin-right: 5px; border-radius: 50%;"
-						alt="" src="${pageContext.request.contextPath}/img/background.jpg">
-					<span
-						style="float: left; font-family: 微软雅黑; margin-left: 11px; padding-top: 6px;">发布者</span>
-				</div>
-			</li>
-			<li
-				style="float: left; width: 225px; height: 352px; margin-right: 31px; margin-bottom: 42px;">
-				<div style="width: 225px; height: 222px;">
-					<img style="width: 100%; height: 100%;" alt=""
-						src="${pageContext.request.contextPath}/img/background.jpg">
-				</div>
-				<div>
-					<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
-				</div>
-				<div
-					style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">学期</div>
-				<div
-					style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">专业</div>
-				<div>
-					<img
-						style="width: 30px; height: 30px; float: left; margin-right: 5px; border-radius: 50%;"
-						alt="" src="${pageContext.request.contextPath}/img/background.jpg">
-					<span
-						style="float: left; font-family: 微软雅黑; margin-left: 11px; padding-top: 6px;">发布者</span>
-				</div>
-			</li>
-			<li
-				style="float: left; width: 225px; height: 352px; margin-right: 31px; margin-bottom: 42px;">
-				<div style="width: 225px; height: 222px;">
-					<img style="width: 100%; height: 100%;" alt=""
-						src="${pageContext.request.contextPath}/img/background.jpg">
-				</div>
-				<div>
-					<h3 style="font-family: 微软雅黑; font-size: 18px">题目</h3>
-				</div>
-				<div
-					style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">学期</div>
-				<div
-					style="font-family: 微软雅黑; font-size: 13px; margin-bottom: 2px; opacity: 0.8;">专业</div>
-				<div>
-					<img
-						style="width: 30px; height: 30px; float: left; margin-right: 5px; border-radius: 50%;"
-						alt="" src="${pageContext.request.contextPath}/img/background.jpg">
-					<span
-						style="float: left; font-family: 微软雅黑; margin-left: 11px; padding-top: 6px;">发布者</span>
-				</div>
-			</li>
+		</c:forEach>
+		
 			
 		</ul>
 		<div class="more">
 			<span>更多>></span>
 		</div>
 	</div>
+	</c:if>
 </body>
 <script src="${pageContext.request.contextPath}/js/shouye.js"
 	type="text/javascript" charset="utf-8"></script>

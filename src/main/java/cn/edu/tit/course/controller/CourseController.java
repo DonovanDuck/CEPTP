@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -44,6 +45,7 @@ import org.springframework.web.multipart.MultipartFile;
 import cn.edu.tit.course.Iservice.ICourseService;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
+import cn.edu.tit.course.bean.Depart;
 import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.pager.PagerBean;
 import cn.edu.tit.user.Iservice.IUserService;
@@ -110,34 +112,60 @@ public class CourseController {
 	 * 
 	 * @param request
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/addCourse")
-	public String addCourse(HttpServletRequest request) {
+	public String addCourse(HttpServletRequest request) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("utf-8");
 		// 获取课程相关信息
-		// String create_user = (String)
-		// request.getSession().getAttribute("user_id");
-		String create_user = "1520561";
-		String course_id = create_user + "_" + System.currentTimeMillis(); // 课程id
+		 User user = (User)request.getSession().getAttribute("user");
+//		String create_user = "1520561";
+		String publisher = "xx";
+		String course_id = user.getUser_id() + "_" + System.currentTimeMillis(); // 课程id
 		String college = request.getParameter("school");// 学校
 		String course_name = request.getParameter("course_name"); // 课程名
 		// String course_name = "comp";
-		String course_lable = request.getParameter("course_lable"); // 类型
+		int course_lable = 2; // 类型
 		int course_flag = 1; // 状态
 		String course_notes = request.getParameter("course_notes"); // 简介
 		String application_pro = request.getParameter("application_pro"); // 适合专业
 		// 测试数据
 		// String course_notes = "xx";
 		// String application_pro = "yy";
-		String invitation_code = UUID.randomUUID().toString().replace("-", "").toUpperCase(); // 邀请码
+		String invitation_code = UUID.randomUUID().toString().replace("-", "").toUpperCase().substring(0,6); // 邀请码
 		byte[] course_img = request.getParameter("course_img").getBytes(); // 图片
 		// 封装课程对象
 		Course course = new Course(course_id, course_name, course_lable, course_img, course_notes, college,
-				application_pro, course_flag, invitation_code, create_user);
+				application_pro, course_flag, invitation_code, user.getUser_id(),user.getUser_name());
 		// 存储课程信息
 		courseService.createCourse(course);
-		return null;
+		return tomain(request);
 	}
 
+	@RequestMapping(value="/tomain")
+	public String tomain(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Course> courses = courseService.findCByuserid(user.getUser_id());
+		List<Course> mycourses = new ArrayList<>();
+		if(courses.size()>4){
+			for(int i =0;i<4;i++){
+				mycourses.add(courses.get(i));
+			}
+		}else{mycourses = courses;}
+		courses = courseService.getjoinCourse(user.getUser_id());
+		List<Course> joincourses = new ArrayList<>();
+		if(courses.size()>4){
+			for(int i =0;i<4;i++){
+				joincourses.add(courses.get(i));
+			}
+		}else{joincourses=courses;}
+		request.setAttribute("mycourses", mycourses);
+		request.setAttribute("joincourses", joincourses);
+		request.setAttribute("username", user.getUser_name());
+		return "jsp/main";
+	}
+	
 	/**
 	 * 加入课程
 	 * 
@@ -146,14 +174,12 @@ public class CourseController {
 	 */
 	@RequestMapping(value = "/joinCourse")
 	public String joinCourse(HttpServletRequest request) {
-		// 获取加入的课程号
-		String course_id = request.getParameter("course_id");
 		// 获取加入者id和邀请码
-		String user_id = (String) request.getSession().getAttribute("user_id");
+		User user = (User) request.getSession().getAttribute("user");
 		String invitation_code = request.getParameter("invitation_code");
 		// 调用业务逻辑
-		courseService.joinCourse(invitation_code, "1520561", "1520561_1517561047582");
-		return "jsp/main";
+		courseService.joinCourse(invitation_code, user.getUser_id());
+		return tomain(request);
 	}
 
 	/**
@@ -163,13 +189,10 @@ public class CourseController {
 	 */
 	@RequestMapping(value = "/publishTask")
 	public String publishTask(HttpServletRequest request, HttpServletResponse response) {
-		// //接收参数
-		// String task_name = request.getParameter("task_name");
-		//// String course_id = request.getParameter("course_id");
-		String task_id = "1520561_1517561047582" + System.currentTimeMillis();
-		// String create_user = (String)
-		// request.getSession().getAttribute("username");
-		String username = "1520561";
+		
+		 User user = (User)
+		 request.getSession().getAttribute("user");
+//		String username = "1520561";
 
 		try {
 			String path = "D:\\accessory\\";
@@ -189,12 +212,11 @@ public class CourseController {
 						File savedFile = new File(path, fullFile.getName());
 						fi.write(savedFile);
 						if (!fullFile.getName().equals(name)) {
-							acc.setTask_id(task_id);
 							acc.setAccessory_name(fullFile.getName());
-							acc.setAccessory_id(username + System.currentTimeMillis());
+							acc.setAccessory_id(user.getUser_name() + System.currentTimeMillis());
 							acc.setAccessory_kind(1);
 							acc.setAccessory_path(path + acc.getAccessory_name());
-							acc.setCreate_user(username);
+							acc.setCreate_user(user.getUser_name());
 							accList.add(acc);
 							name = fullFile.getName();
 						}
@@ -205,19 +227,28 @@ public class CourseController {
 				}
 			}
 			Task task = CommonUtils.toBean(formdata, Task.class);
+			String task_id = task.getCourse_id() + System.currentTimeMillis();
+			for(Accessory a:accList){
+				a.setTask_id(task_id);
+			}
 			task.setTask_id(task_id);
-			task.setCourse_id("1520561_1517561047582");
 			task.setStatus(1);
 			task.setPubAccs(accList);
 			task.setEvaluate_kind("教师评价");
 			task.setEvaluate_id("1520561");
-			task.setCreate_user("1520561");
+			task.setCreate_user(user.getUser_id());
 			// 调用service方法
 			courseService.addTask(task);
+			List<Task> taskList = new ArrayList<>();
+			taskList = courseService.getTaskBycid(task.getCourse_id());
+			request.setAttribute("course_id", task.getCourse_id());
+			request.setAttribute("taskList", taskList);
+			return "jsp/intoCourse";
 		} catch (Exception e) {
 			e.getMessage();
+			return null;
 		}
-		return null;
+		
 	}
 
 	/**
@@ -229,11 +260,8 @@ public class CourseController {
 	@RequestMapping(value = "/uploadTask")
 	public String uploadTask(HttpServletRequest request) {
 		// 获取参数
-		// String task_id = request.getParameter("task_id");
-		String task_id = "1520561_15175610475821520427995506";
-		// String uploader = (String)
-		// request.getSession().getAttribute("user_id");
-		String uploader = "1520561";
+		 User uploader = (User)
+		 request.getSession().getAttribute("user");
 		try {
 			String path = "D:\\accessory\\";
 			DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -252,12 +280,11 @@ public class CourseController {
 						File savedFile = new File(path, fullFile.getName());
 						fi.write(savedFile);
 						if (!fullFile.getName().equals(name)) {
-							acc.setTask_id(task_id);
 							acc.setAccessory_name(fullFile.getName());
-							acc.setAccessory_id(uploader + System.currentTimeMillis());
+							acc.setAccessory_id(uploader.getUser_id() + System.currentTimeMillis());
 							acc.setAccessory_kind(2);
 							acc.setAccessory_path(path + acc.getAccessory_name());
-							acc.setCreate_user(uploader);
+							acc.setCreate_user(uploader.getUser_id());
 							accList.add(acc);
 							name = fullFile.getName();
 						}
@@ -267,23 +294,33 @@ public class CourseController {
 				}
 			}
 			Task task = CommonUtils.toBean(formdata, Task.class);
-			task.setTask_id(task_id);
+			task.setTask_id(task.getTask_id());
+			for(Accessory a:accList){
+				a.setTask_id(task.getTask_id());
+			}
+			task.setUploader(uploader.getUser_id());
 			task.setPubAccs(accList);
-			task.setCreate_user("1520561");
+			task.setCreate_user(uploader.getUser_id());
 			// 调用service方法
 			courseService.uploadTask(task);
+			List<Task> taskList = new ArrayList<>();
+			taskList = courseService.getTaskBycid(task.getCourse_id());
+			request.setAttribute("course_id", task.getCourse_id());
+			request.setAttribute("taskList", taskList);
+			return "jsp/intoCourse2";
 		} catch (Exception e) {
 			e.getMessage();
+			return null;
 		}
-		return null;
+		
 	}
 
-	@RequestMapping(value = "/showTask")
-	public String showTask(HttpServletRequest request) {
-		Task task = courseService.secTaskByid("1520561_15175610475821520861733883");
+	@RequestMapping(value = "/showTask/{task_id}")
+	public String showTask(HttpServletRequest request,@PathVariable String task_id) {
+		Task task = courseService.secTaskByid(task_id);
 		// 根据id查询所有附件
 		List<Accessory> accList = new ArrayList<>();
-		accList = courseService.getAccs("1520561_15175610475821520861733883", 1);
+		accList = courseService.getAccs(task_id, 1);
 		task.setPubAccs(accList);
 		request.setAttribute("task", task);
 		return "jsp/uploadTask";
@@ -465,8 +502,15 @@ public class CourseController {
 	@RequestMapping(value = "/toAddCourse")
 	private String toAddCourse(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		// String user_id = (String) session.getAttribute("user_id");
-		User user = userService.findUserById("1520561");
+		 User user1 = (User) session.getAttribute("user");
+		 if(user1 == null){
+			 request.setAttribute("msg", "请先登录");
+			 return "jsp/user/login";
+		 }
+		User user = userService.findUserById(user1.getUser_id());
+		List<Depart> departList = new ArrayList<>();
+		departList = courseService.getdepart();
+		request.setAttribute("departs", departList);
 		request.setAttribute("username", user.getUser_name());
 		return "jsp/addCourse";
 
@@ -481,8 +525,12 @@ public class CourseController {
 	@RequestMapping(value = "/toJoinCourse")
 	private String toJoinCourse(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		// String user_id = (String) session.getAttribute("user_id");
-		User user = userService.findUserById("1520561");
+		 User user = (User) session.getAttribute("user");
+		 if(user==null){
+			 request.setAttribute("msg", "请先登录");
+			 return "jsp/user/login";
+		 }
+//		User user = userService.findUserById("1520561");
 		request.setAttribute("username", user.getUser_name());
 		return "jsp/joinCourse";
 
@@ -500,7 +548,11 @@ public class CourseController {
 		// String user_id = (String) session.getAttribute("user_id");
 		User user = userService.findUserById("1520561");
 		request.setAttribute("username", user.getUser_name());
+		//根据courseid查任务
+		List<Task> taskList = new ArrayList<>();
+		taskList = courseService.getTaskBycid(course_id);
 		request.setAttribute("course_id", course_id);
+		request.setAttribute("taskList", taskList);
 		return "jsp/intoCourse";
 
 	}
@@ -517,7 +569,11 @@ public class CourseController {
 		// String user_id = (String) session.getAttribute("user_id");
 		User user = userService.findUserById("1520561");
 		request.setAttribute("username", user.getUser_name());
+		//根据courseid查任务
+		List<Task> taskList = new ArrayList<>();
+		taskList = courseService.getTaskBycid(course_id);
 		request.setAttribute("course_id", course_id);
+		request.setAttribute("taskList", taskList);
 		return "jsp/intoCourse2";
 
 	}
@@ -531,8 +587,8 @@ public class CourseController {
 	@RequestMapping(value = "/toAddTask/{course_id}")
 	private String toAddTask(HttpServletRequest request, @PathVariable String course_id) {
 		HttpSession session = request.getSession();
-		// String user_id = (String) session.getAttribute("user_id");
-		User user = userService.findUserById("1520561");
+		User user = (User) session.getAttribute("user");
+//		User user = userService.findUserById("1520561");
 		request.setAttribute("username", user.getUser_name());
 		request.setAttribute("course_id", course_id);
 		return "jsp/addTask";
@@ -576,5 +632,19 @@ public class CourseController {
         } catch (IOException e) {  
             e.printStackTrace();  
         }  
+	}
+	/**
+	 * 查询系部
+	 * @param request
+	 * @return
+	 * @throws IOException 
+	 */
+	@RequestMapping(value="/deptype")
+	public String deptype(HttpServletRequest request,HttpServletResponse rsp) throws IOException{
+		List<Depart> departList = new ArrayList<>();
+		departList = courseService.getdepart();
+		PrintWriter out=rsp.getWriter();
+		out.print(com.alibaba.fastjson.JSON.toJSONString(departList));
+		return null;
 	}
 }

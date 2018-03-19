@@ -183,7 +183,7 @@
                     </tr>
                     <tr>
                       <td style="">密　码</td>
-                      <td><input class="inputClass form-control" type="password" name="loginpass" id="loginpass" value="${user.loginpass }"/></td>
+                      <td><input class="inputClass form-control" type="password" name="loginpass" id="loginpass" value=""/></td>
                     </tr>
                     <tr>
                       <td height="20">&nbsp;</td>
@@ -192,7 +192,7 @@
                     <tr>
                       <td style="color: ">验证码</td>
                       <td>
-                        <input class="inputClass yzm " type="text" name="verifyCode" id="verifyCode" value="${user.verifyCode }"/>
+                        <input class="inputClass yzm " type="text" name="verifyCode" id="verifyCode" value=""/>
                         <img id="vCode" src="<c:url value='/user/verifyCode'/>"/>
                         <a id="verifyCode" href="javascript:_change()" style="color: #000">换张图</a>
                       </td>

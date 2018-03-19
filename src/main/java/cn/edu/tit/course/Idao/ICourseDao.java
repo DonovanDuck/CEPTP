@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
+import cn.edu.tit.course.bean.Depart;
 import cn.edu.tit.course.bean.Task;
 
 @Component
@@ -25,7 +26,7 @@ public interface ICourseDao {
 	 * @return
 	 * 邀请码 & 创建者id
 	 */
-	public Course getverify(String course_id);
+	public Course getverify(String invitation_code);
 	
 	/**
 	 * 将申请者加入课程
@@ -190,4 +191,30 @@ public interface ICourseDao {
 	 * @return
 	 */
 	public Course findcByid(String course_id);
+	
+	/**
+	 * 根据userID查找课程
+	 * @param user_id
+	 * @return
+	 */
+	public List<Course> findCByUserid(String user_id);
+	
+	/**
+	 * 根据userID获得加入课程id
+	 * @param user_id
+	 * @return
+	 */
+	public List<String> findJoinCourseid(String user_id);
+	
+	/**
+	 * 根据courseid查任务
+	 * @param course_id
+	 * @return
+	 */
+	public List<Task> getTaskBycid(String course_id);
+	/**
+	 * 获取所有系部
+	 * @return
+	 */
+	public List<Depart> getDepart();
 }

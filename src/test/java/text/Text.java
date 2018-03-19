@@ -19,6 +19,7 @@ import cn.edu.tit.course.Iservice.ICourseService;
 import cn.edu.tit.course.Iservice.serviceImp.CourseSerivceImp;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
+import cn.edu.tit.course.bean.Depart;
 import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.pager.PagerBean;
 import cn.edu.tit.user.Iservice.IUserService;
@@ -70,7 +71,9 @@ public class Text {
 //    		System.out.println(c.getCourse_id());
 //    	}
 
-    	User user = userS.login("152056138", "123");
-    	System.out.println(user.getUser_name());
+    	List<Depart> c = courseDao.getDepart();
+    	for(Depart a: c){
+    		System.out.println(a.getDepart_name());
+    	}
     }
 }

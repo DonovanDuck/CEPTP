@@ -33,7 +33,6 @@
     </header>
 		<form action="<c:url value='/course/joinCourse'/>">
 		<div class="detail">
-			<input type="hidden" name="course_id" value="${course_id }">
 			<span style="font-family: '微软雅黑''">输入邀请码：*</span><br />
 			<input type="text" class="form-control" name="invitation_code" /><br />
 			

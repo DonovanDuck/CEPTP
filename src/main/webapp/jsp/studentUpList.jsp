@@ -131,7 +131,7 @@ function AddMoreRow(){
 			</c:forEach>
 			
 			<div style="margin-top: 28px;">
-			<p>作业列表：</p>
+			<p>提交列表：</p>
 			<ul>
 			<c:forEach items="${uploader }" var="user">
             	<li>

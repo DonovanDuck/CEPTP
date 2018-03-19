@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
+import cn.edu.tit.course.bean.Depart;
 import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.pager.PagerBean;
 
@@ -27,7 +28,7 @@ public interface ICourseService {
 	 * @return
 	 * 返回状态代码
 	 */
-	public String joinCourse(String verify,String user_id,String course_id);
+	public String joinCourse(String verify,String user_id);
 	
 	/**
 	 * 为发布的课程添加任务
@@ -131,5 +132,29 @@ public interface ICourseService {
 	 */
 	public PagerBean<Course> getCPage(int pc,String course_label);
 	
+	/**
+	 * 根据userid查找课程
+	 * @return
+	 */
+	public List<Course> findCByuserid(String user_id);
 	
+	/**
+	 * 获得加入的课程
+	 * @param user_id
+	 * @return
+	 */
+	public List<Course> getjoinCourse(String user_id);
+	
+	/**
+	 * 根据courseid查任务
+	 * @param course_id
+	 * @return
+	 */
+	public List<Task> getTaskBycid(String course_id);
+	
+	/**
+	 * 获得所有depart
+	 * @return
+	 */
+	public List<Depart> getdepart();
 }

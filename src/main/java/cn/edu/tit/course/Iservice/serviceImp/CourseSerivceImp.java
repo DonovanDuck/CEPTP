@@ -24,6 +24,7 @@ import cn.edu.tit.course.Idao.ICourseDao;
 import cn.edu.tit.course.Iservice.ICourseService;
 import cn.edu.tit.course.bean.Accessory;
 import cn.edu.tit.course.bean.Course;
+import cn.edu.tit.course.bean.Depart;
 import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.pager.PageConstents;
 import cn.edu.tit.pager.PagerBean;
@@ -42,20 +43,26 @@ public class CourseSerivceImp implements ICourseService{
 	}
 	@Transactional
 	@Override
-	public String joinCourse(String verify,String user_id,String course_id) {
-		//通过课程id查询邀请码
-		Course course = courseDao.getverify(course_id);
-		String invitationCode = course.getInvitation_code();
-		String create_user = course.getCreate_user();
-		//校验邀请码
-		if(invitationCode.equals(verify)){
-			//正确将申请者加入
-			courseDao.joinCourse(user_id, course_id, create_user);
-			return StatusCode.SUCCESS_CREATE;
+	public String joinCourse(String verify,String user_id) {
+		try {
+			//通过课程id查询邀请码
+			Course course = courseDao.getverify(verify);
+			String invitationCode = course.getInvitation_code();
+			String create_user = course.getCreate_user();
+			//校验邀请码
+			if(invitationCode.equals(verify)){
+				//正确将申请者加入
+				courseDao.joinCourse(user_id, course.getCourse_id(), create_user);
+				return StatusCode.SUCCESS_CREATE;
+			}
+			else{
+				return StatusCode.EXECUTE_ERROR;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		else{
-			return StatusCode.EXECUTE_ERROR;
-		}
+		
 	}
 	@Transactional
 	@Override
@@ -167,6 +174,33 @@ public class CourseSerivceImp implements ICourseService{
 	public Course secCourseByid(String course_id) {
 		
 		return courseDao.findcByid(course_id);
+	}
+	@Override
+	public List<Course> findCByuserid(String user_id) {
+		List<Course> courseList = new ArrayList<>();
+		courseList = courseDao.findCByUserid(user_id);
+		
+		return courseList;
+	}
+	@Override
+	public List<Course> getjoinCourse(String user_id) {
+		//通过userid查询加入课程id
+		List<String> course_idList = courseDao.findJoinCourseid(user_id);
+		List<Course> courseList = new ArrayList<>();
+		for(String course_id : course_idList){
+			courseList.add(courseDao.findcByid(course_id));
+		}
+		return courseList;
+	}
+	@Override
+	public List<Task> getTaskBycid(String course_id) {
+		
+		return courseDao.getTaskBycid(course_id);
+	}
+	@Override
+	public List<Depart> getdepart() {
+		// TODO Auto-generated method stub
+		return courseDao.getDepart();
 	}
 	
 }

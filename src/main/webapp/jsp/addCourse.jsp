@@ -12,14 +12,7 @@
 		<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script  type="text/javascript" >
-			function AddMoreRow(){
-					var oRow = event.srcElement.parentNode.parentNode;
-					var oTable = oRow.parentNode.parentNode;
-					var rowCount = oTable.rows.length;
-					oNewRow = oTable.insertRow(rowCount);
-					oNewRow.insertCell(0).innerHTML = "<input type='text' class='form-control' name='course_lable'style='width:223px;margin-bottom:3px;' />";
-				}
-	
+		
 		</script>
 	</head>
 	  
@@ -48,11 +41,12 @@
 			<input type="text" class="form-control" name="school" /><br />
 			<span>课程名*</span><br />
 			<input type="text" class="form-control" name="course_name" /><br />
-			<table style="margin-bottom:20px;">
-				<tr>
-					<td><input class="btn btn-info" type="button" value="添加标签" onclick="AddMoreRow()"><br /></td>
-				</tr>
-			</table>
+			<select id="depart" name="course_lable" >
+				<option vlaue="">请选择系部</option>
+				<c:forEach items="${departs }" var="depart">
+					<option vlaue="${depart.depart_id }" name="course_lable">${depart.depart_name }</option>
+				</c:forEach>
+			</select>
 			<span>课程简介</span><br />
 			<textarea class="form-control" rows="3" name="course_notes"></textarea>
 			<span>适用专业</span><br />
@@ -60,7 +54,7 @@
 			<span>添加课程图片</span><br />
 			<div class="clphoto">
 				<label for="file" class="filephoto">+</label>
-				<input type="file" id="file" style=";" name="course_img">
+				<input type="file" id="file" style="display: none;" name="course_img">
 			</div>
 			<div class="sub">
 				<button type="submit" class="btn btn-default" style="margin-right: 200px">提交</button>

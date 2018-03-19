@@ -123,6 +123,7 @@ function AddMoreRow(){
 		<!--搜索框-->
 		<form action="<c:url value='/course/uploadTask'/>"
 			enctype="multipart/form-data" method="post">
+			<input type="hidden" name="task_id" value="${task.task_id }">
 			<input type="hidden" name="course_id" value="${task.course_id }">
 			<div>
 				<p>作业详情：</p>
@@ -138,7 +139,7 @@ function AddMoreRow(){
 			</c:forEach>
 			<div style="margin-top: 30px">
         		<p>提交任务：</p>
-            	<textarea id = "uploadTask_details" class=""   cols="188" rows="10" placeholder="请输入" name="task_details"  ></textarea>
+            	<textarea id = "uploadTask_details" class=""   cols="188" rows="10" placeholder="请输入" name="uploadTask_details"  ></textarea>
             	<p class="light">(选填)可输入文字或添加图片及其他类型附件</p>
         	</div>
 			<table>

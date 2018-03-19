@@ -29,7 +29,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import cn.edu.tit.course.Idao.ICourseDao;
+import cn.edu.tit.course.Iservice.ICourseService;
 import cn.edu.tit.course.bean.Accessory;
+import cn.edu.tit.course.bean.Course;
 import cn.edu.tit.course.bean.Task;
 import cn.edu.tit.user.Iservice.IUserService;
 import cn.edu.tit.user.bean.User;
@@ -40,6 +43,8 @@ import cn.itcast.vcode.utils.VerifyCode;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	@Autowired
+	private ICourseService courseService;
 	@Autowired
 	private IUserService userService;
     @Autowired
@@ -107,12 +112,17 @@ public class UserController {
     		userService.signUp(user);
         } catch (Exception e) {  
         	e.getMessage();
-        	return null;
+        	return "jsp/user/regiest";
         }  
 		
 		String page = roleUtil.getPage("login");
 		return page;
 	}
+	/**
+	 * 用户登录
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="/login")
 	public String login(HttpServletRequest request){
 		String username = request.getParameter("loginname");
@@ -123,8 +133,39 @@ public class UserController {
 			return "jsp/user/login";
 		}
 		else{
-			return "jsp/main";
+			request.getSession().setAttribute("user", user);
+			
+			return tomain(request);
 		}
+	}
+	
+	/**
+	 * 跳转到主页
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/tomain")
+	public String tomain(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<Course> courses = courseService.findCByuserid(user.getUser_id());
+		List<Course> mycourses = new ArrayList<>();
+		if(courses.size()>4){
+			for(int i =0;i<4;i++){
+				mycourses.add(courses.get(i));
+			}
+		}else{mycourses = courses;}
+		courses = courseService.getjoinCourse(user.getUser_id());
+		List<Course> joincourses = new ArrayList<>();
+		if(courses.size()>4){
+			for(int i =0;i<4;i++){
+				joincourses.add(courses.get(i));
+			}
+		}else{joincourses=courses;}
+		request.setAttribute("mycourses", mycourses);
+		request.setAttribute("joincourses", joincourses);
+		request.setAttribute("username", user.getUser_name());
+		return "jsp/main";
 	}
 	
 	/**

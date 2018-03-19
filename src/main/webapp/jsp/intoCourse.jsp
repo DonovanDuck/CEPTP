@@ -125,25 +125,38 @@ function AddMoreRow(){
 			</span>
 		</div>
 	</div>
-	<a href="${pageContext.request.contextPath}/course/toStudentUpList/1520561_15175610475821520861733883">
+	
+	
+	<ul>
+		<c:forEach items="${taskList }" var="task">
+	
+			<a href="${pageContext.request.contextPath}/course/toStudentUpList/${task.task_id}">
+		<li>
+			
 	<div style="margin-left: 119px;margin-top: 19px;height: 100px;width: 533px;">
 		<div class="pic">
 		<img src="img/2.png" />
 	</div>
 	<div class="cent">
-		<span>进行中</span> 课后调查 <br />
+		<span>进行中</span> ${task.task_name } <br />
 		<ul>
 			<li class="fl">共5道题目</li>
 			<li class="fl">|</li>
 			<li class="fl">共51人作答</li>
 			<li class="fl">|</li>
-			<li class="fl">2018-1-20</li>
+			<li class="fl">${task.create_time }</li>
 			<li class="fl">|</li>
 			<li class="fl"><a href="">3经验</a></li>
 		</ul>
 	</div>
-	</a>
-	</div>
+	
+		</li>
+		</a>
+		</c:forEach>
+		
+	</ul>
+	
+	
 	
 
 </body>
